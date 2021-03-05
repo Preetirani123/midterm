@@ -7,6 +7,8 @@
 * When the user submits order, the user table is populated with an auto-incrementing user_id, the name and phone number
 * As a user, when I submit my order, the UI will refresh to display the order time, and I will recieve an SMS confirming the same information, and I will be able to navigate back to the menu via link
 
+practise
+
 <!-- Main menu
 Cart/Order review 
 Order submitted page/Cooking time page -->
