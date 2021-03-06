@@ -7,6 +7,6 @@ CREATE TABLE menu (
   description TEXT,
   price INTEGER,
   image_url VARCHAR(255),
-  est_time TIMESTAMP,
+  est_time INTEGER,
   active BOOLEAN DEFAULT TRUE
 );
