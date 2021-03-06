@@ -1,0 +1,40 @@
+nav {
+  background: $red-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.2rem 1rem;
+  align-items: center;
+  top: 0px;
+    position: fixed;
+    width: 100%;
+  form{
+    input{
+      padding: 10px;
+      font-size: 17px;
+      border: 1px solid grey;
+      float: left;
+      width: 80%;
+      background: #f1f1f1;
+    }
+    button{
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #111111;
+  color: white;
+  font-size: 17px;
+  border: 1px solid #000000;
+  border-left: none;
+  cursor: pointer;
+
+    }
+  }
+  span{
+    .fas{
+      color: #ffffff;
+    }
+
+  }
+}
+

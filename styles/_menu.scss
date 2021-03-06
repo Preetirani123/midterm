@@ -1,0 +1,19 @@
+header {
+  background: #211f1f;
+  padding: 1rem;
+  text-align: center;
+  top: 93px;
+    position: fixed;
+    width: 100%;
+  a {
+    color: $white-color;
+    padding: 0rem 1rem;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    &:hover{
+      color: $red-color;
+    }
+  }
+}

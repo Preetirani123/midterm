@@ -1,9 +1,7 @@
 // See: https://sass-lang.com/
-
-body {
-  background-color: #EEE;
-
-  h1 {
-    color: #244751;
-  }
-}
+@import '_variable';
+@import '_main';
+@import '_nav';
+@import 'menu';
+@import '_body';
+@import '_footer'
