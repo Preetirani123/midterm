@@ -1,0 +1,14 @@
+-- Drop and recreate Users table (Example)
+
+DROP TABLE IF EXISTS orders CASCADE;
+
+
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  menu_id INTEGER REFERENCES menu(id) ON DELETE CASCADE,
+  order_time TIMESTAMP,
+  order_fulfilled BOOLEAN DEFAULT FALSE
+);
+
+
