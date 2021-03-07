@@ -2,6 +2,49 @@
   margin-top: 7rem;
 }
 
+#order-container{
+  display: none;
+  margin: 50px 150px;
+  h1{
+    color:black;
+    text-align: center;
+  }
+  h2{
+    color:black;
+    text-align: right;
+  }
+  section{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    color: black;
+    border:none;
+    border-bottom-style: solid;
+    border-bottom-color: grey;
+    padding-bottom: 6px;
+
+    img{
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+    }
+
+
+    button {
+      cursor: pointer;
+      border: none;
+      background-color: transparent;
+      color:grey;
+      font-size: 0.9rem;
+      text-decoration: underline;
+      &:hover{
+        color: red;
+      }
+    }
+  }
+}
+
 #item-container {
   display: flex;
     flex-direction: row;
