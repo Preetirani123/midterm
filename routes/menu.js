@@ -9,13 +9,16 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+
   router.get("/", (req, res) => {
+
 
     db.query(`SELECT * FROM menu;`)
       .then(data => {
+
         const menu = data.rows;
 
-        console.log(menu); //for testing
+        //console.log(menu); //for testing
 
         res.json({ menu });
       })
