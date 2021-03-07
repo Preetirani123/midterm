@@ -5,6 +5,7 @@ $(() => {
   }).done((users) => {
 
 // -----> PSEUDO USER
+    sessionStorage.setItem('pseudoUser', users.user.id);
     console.log(users.user);
   });;
 });

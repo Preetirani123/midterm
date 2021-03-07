@@ -32,14 +32,14 @@ const createMenuElement = function (data) {
 
 const fetchMenu = () => {
   const url = `/api/menu`;
-  console.log("URL", url);
+
   $.ajax({
     url: url,
     type: "GET",
     success: (data) => {
-      console.log("menu Details: ", data);
+      // console.log("menu Details: ", data);
       for (const items of data.menu) {
-        console.log(items);
+        // console.log(items);
         $("#item-container").append(createMenuElement(items));
       }
     },

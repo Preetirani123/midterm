@@ -16,9 +16,11 @@ module.exports = (db) => {
     WHERE orders.id = $1;`, values)
       .then(data => {
         const order = data.rows[0];
-        res.send({ order });
+        res.json({ order });
 
-        console.log(order); //for testing
+// ------> TWILLIO TEXT MSG FUNCTIONALITY WILL BE CALLED HERE <--------
+
+
       })
       .catch(err => {
         res
