@@ -3,6 +3,7 @@ $(document).ready(() => {
 });
 
 const createMenuElement = function (data) {
+
   const $menu = $(`
   <div class="item-menu">
     <div class="image">
@@ -24,7 +25,7 @@ const createMenuElement = function (data) {
       </div>
     </div>
     <div class="add-cart">
-      <span><i class="fab fa-opencart"></i>Add to cart</span>
+      <span id=${data.id} onclick="addToCart(this.id)" ><i class="fab fa-opencart"></i>Add to cart</span>
     </div>
   </div>`);
   return $menu;
@@ -37,7 +38,9 @@ const fetchMenu = () => {
     url: url,
     type: "GET",
     success: (data) => {
-      // console.log("menu Details: ", data);
+      //Declared a global menu variable for use in checkout flow
+      _menu = data.menu;
+
       for (const items of data.menu) {
         // console.log(items);
         $("#item-container").append(createMenuElement(items));
