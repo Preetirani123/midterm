@@ -1,0 +1,61 @@
+.banner-container {
+  margin-top: 7rem;
+}
+
+#item-container {
+  display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;;
+    width: 100%;
+    padding: 1rem;
+    flex-wrap: wrap;
+
+  .item-menu {
+    width: 30.33%;
+    margin: 1rem;
+    text-align: center;
+    background: #f3eeee;
+    padding: 1rem;
+
+
+    img{
+      width: 100%;
+    }
+
+    h3{
+      color:  $red-color;
+      letter-spacing: 1px;;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 23px;
+      overflow-wrap: break-word;
+    }
+
+    .cart-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      input{
+        width: 54px;
+      }
+    }
+
+    .add-cart {
+      padding: 2rem;
+
+      span {
+        background: $red-color;
+        padding: 1rem;
+        border-radius: 5px;
+        color: $white-color;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+
+
