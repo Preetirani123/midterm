@@ -9,14 +9,18 @@ nav {
   top: 0px;
     position: fixed;
     width: 100%;
+    span {
+      width: 33.33%;
+  }
   form{
     input{
       padding: 10px;
-      font-size: 17px;
-      border: 1px solid grey;
-      float: left;
-      width: 80%;
-      background: #f1f1f1;
+    font-size: 17px;
+    border: 1px solid #6d6a67;
+    float: left;
+    width: 100%;
+    background: #f1f1f1;
+    border-radius: 9px;
     }
     button{
   float: left;
@@ -40,11 +44,15 @@ nav {
 
   .fas-right{
     cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     color: #ffffff;
+    text-align: right;
+    #cart_size{
+      margin: 0px;
+    }
+    &:hover{
+      color: #21201f;
+    }
   }
 
 }
