@@ -42,7 +42,6 @@ const fetchMenu = () => {
       _menu = data.menu;
 
       for (const items of data.menu) {
-        // console.log(items);
         $("#item-container").append(createMenuElement(items));
       }
     },

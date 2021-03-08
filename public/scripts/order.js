@@ -1,27 +1,42 @@
 
 $(document).ready(function() {
-  placeOrder();
   addHeadToCheckoutListener();
+  onMenuClicked();
 });
 
 //GLOBAL VARS
 let _menu = [];
 let _cart = [];
 
+//shows main menu
+const onMenuClicked = () => {
+  $('#menu_btn').on('click', () => {
+  $('.fas-right').fadeIn('slow');
+  $('#order-container').css('display', 'none');
+  $('#order-container').html('');
+  $("#item-container").fadeIn('slow');
+  scrollIntoView();
+});
+}
 
-//adds item to cart
+//adds order item to cart
 const addToCart = menu_id => {
 
   for (const item of _menu) {
 
     if (Number(menu_id) === Number(item.id))   {
      _cart.push(item);
+     $('#added_to_cart').html(`${item.food_item} Added To Cart`);
+     $('#added_to_cart').fadeIn('slow');
+     setTimeout(function(){
+     $('#added_to_cart').slideUp('slow');
+     },1000);
      return $('#cart_size').html(`${_cart.length}`);
     }
   }
 };
 
-//adds a listener event to the headToCheckout Function
+//adds a listener event to the headToCheckout function
 const addHeadToCheckoutListener = () => {
 
   $('#head_to_checkout').on('click', () => {
@@ -33,14 +48,20 @@ const addHeadToCheckoutListener = () => {
 const headToCheckout = () => {
 
   if(!_cart || _cart.length < 1) {
-    return alert("You have no items in your cart.");
+    $('#added_to_cart').html(`You have no items in your cart.`);
+    $('#added_to_cart').fadeIn('slow');
+    setTimeout(function(){
+    $('#added_to_cart').slideUp('slow');
+    },3000);
+    return;
   }
 
+  $('.fas-right').css('display','none');
   const orderElements = [];
   let totalPrice = 0;
 
   $orderDetails = `
-  <div>
+  <div id='order-title'>
   <h1>${sessionStorage.getItem('username')}'s Order</h1>
   </div>
   `
@@ -61,8 +82,9 @@ const headToCheckout = () => {
   }
 
     $orderDetails = `
-    <div>
+    <div class='order-footer'>
     <h2>Order Total: $${totalPrice}</h2>
+    <button id='place_order'>Place Order</button>
     </div>
     `
     orderElements.push($orderDetails);
@@ -72,24 +94,17 @@ const headToCheckout = () => {
 //takes an html element as an args and renders the users checkout details
 const renderCheckoutPage = order => {
 
-  $('#item-container').fadeOut('fast');
+  $('#item-container').css('display', 'none');
   $('#order-container').fadeIn('slow');
 
   for (const item of order){
     $("#order-container").append(item);
   }
-
-  setTimeout(function(){
-    window.scrollTo({
-      top: 450,
-      left: 0,
-      behavior: 'smooth'
-    });
-  }, 1000);
-
+  scrollIntoView();
+  addPlaceOrderListener();
 };
 
-//removes an item from the users cart by fetching its ID and re-rendes the order-container
+//removes an item from the users cart by fetching its ID and re-renders the order-container
 const removeFromCart = (menu_id) => {
 
     for (let i = 0; i < _cart.length; i++) {
@@ -102,6 +117,7 @@ const removeFromCart = (menu_id) => {
         $('#order-container').html('');
 
         if (_cart.length < 1){
+          $('.fas-right').fadeIn('slow');
           return $("#item-container").fadeIn('slow');
         } else {
           return headToCheckout();
@@ -111,28 +127,31 @@ const removeFromCart = (menu_id) => {
 
   };
 
+//allows the current user to place an order
+const addPlaceOrderListener = () => {
 
-//allows the user to place an order
-const placeOrder = () => {
+  $('#place_order').on('click', () => {
 
-  $('#place_order').on('click', (event) => {
-    event.preventDefault();
+    const menu_ids = _cart.map(x => x = x.id);
 
-    const testData = {
+    const orderData = {
       user: sessionStorage.getItem('pseudoUser'),
-      menu_items: _cart
+      menu_items: menu_ids,
     }
 
     $.ajax({
       url: '/api/place_orders',
       type: 'POST',
-      data: testData,
+      data: orderData,
 
       success: data => {
-        console.log('Order ID: ',data)
-        cart = [];
-        $('#cart_size').html(`${cart.length}`);
-        fetchOrderDetails(data);
+        $("#complete-container").append(processingOrderAnimation);
+        $("#complete-container").fadeIn('slow');
+        $(".inner-complete-container").slideDown('slow');
+
+        //test function for simulating SMS received update
+        simulateSMS();
+
       },
       error: error => {
         console.log(error.responseText);
@@ -141,6 +160,74 @@ const placeOrder = () => {
 
   });
 };
+
+//creates a spinner animation while the SMS functionality is handled
+const processingOrderAnimation = () => {
+
+  const $processing = `<section class='inner-complete-container'>
+  <h2>Order Received</h2>
+  <h4>Processing estimated wait time...</h4>
+  <div class="sending"></div>
+  </section>`;
+  _cart = [];
+  $('#cart_size').html(`${_cart.length}`);
+  return $processing;
+};
+
+// updates the browser with estimated time into from the fetched order data and SMS update;
+const createOrderPlacedElement = () => {
+
+  const minutes = 30; //TEST VALUE ONLY
+
+  const waitTime = Number(minutes) * 60 * 1000;
+  const pickUpTime = new Date(new Date().getTime() + waitTime).toLocaleTimeString();
+
+  const $orderMSg = `<section class='final-complete-container'>
+  <a href='/'><h6>menu<h6></a>
+  <h4>
+  Your order will be ready in
+  </h4>
+  <p>
+  ${minutes} minutes
+  </p>
+  <h4>
+  Pick-Up Time
+  </h4>
+  <p>
+  ${pickUpTime}
+  <p>
+  <a href='https://www.google.com/maps/dir/?api=1&origin=&destination=Stanley+Park+Vancouver+BC&travelmode=bicycling' target='_blank'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2aQejmdcLqj9jgx9LMaOwaAM0YDZpAkMohg&usqp=CAU'/></a>
+  </section>`;
+
+  return $orderMSg;
+};
+
+
+//scrolls the menu and checkout containers into view
+const scrollIntoView = () => {
+
+  $('.anchor').slideDown('slow');
+
+  $('html, body').animate({
+    scrollTop: $(".anchor").offset().top
+
+   }, 1000);
+
+
+   $(window).scroll( () => {
+
+    let scroll = $(window).scrollTop();
+
+    if (scroll < 1) {
+      $('.anchor').slideUp('slow');
+    }
+
+  });
+
+
+
+}
+
 
 //fetches the users recently placed order by order_id.
 const fetchOrderDetails = id => {
@@ -152,10 +239,7 @@ const fetchOrderDetails = id => {
     type: 'GET',
 
     success: data => {
-
-  //---> USE DATA OBJECT TO POPULATE BRWOSERS ORDER UPDATE
-    createOrderPlacedElement(data.order);
-     console.log(createOrderPlacedElement(data.order));
+      console.log(data);
 
     },
     error: error => {
@@ -165,34 +249,21 @@ const fetchOrderDetails = id => {
 
 };
 
-// creates an order success html elements from the fetched order data;
-const createOrderPlacedElement = orderData => {
 
-  const waitTime = Number(orderData.est_time) * 60 * 1000;
-  const pickUpTime = new Date(new Date().getTime() + waitTime).toLocaleTimeString();
+//test function for simulating SMS received from restaurant
+const simulateSMS = () => {
 
-  const $orderMSg = `<article>
-  <h2>
-  Thank you ${orderData.customer}, your order has been placed successfully!
-  A second notification has been sent to your mobile device at ${orderData.phone}.
-  </h2>
-  <h3>
-  Estimated Wait Time
-  </h3>
-  <h3>
-  ${orderData.est_time} minutes
-  </h3>
-  <h3>
-  Pick-Up Time
-  </h3>
-  <h3>
-  ${pickUpTime}
-  </h3>
-  <p>Thank you for dining with us 🙏</p>
-  </article>`
+  setTimeout(function(){
 
-  return $orderMSg;
-};
+    $(".inner-complete-container").fadeOut('slow');
+    $("#complete-container").append(createOrderPlacedElement);
+
+    setTimeout(function(){
+      $(".final-complete-container").fadeIn('slow');
+    },1000);
+
+    },5000);
+}
 
 
 
