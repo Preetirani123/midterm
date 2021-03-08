@@ -37,6 +37,13 @@ module.exports = (db) => {
         const est_time = Number(req.body.est_time) * 60 * 1000;// minutes to milliseconds
         setTimeout(function(){
         console.log(`Testing Server Side Timeout: ${est_time}`);
+        client.messages
+        .create({
+           body: `Your food is ready!`,
+           from: phoneNumber,
+           to: '+17788865426'
+         })
+        .then(message => console.log(message.sid));
         // ------> Not sure if setTimeouts can be used on the server reliably.
 
 
