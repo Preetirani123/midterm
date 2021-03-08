@@ -1,5 +1,6 @@
 $(document).ready(() => {
   fetchMenu();
+  addQuickOrderListener();
   addMenuClickedListener();
   addHeadToCheckoutListener();
 
