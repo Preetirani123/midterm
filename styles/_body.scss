@@ -57,7 +57,7 @@
       cursor: pointer;
       margin-top: -10px;
       text-align: left;
-      color: grey;
+      color: gray;
       text-decoration: underline;
       &:hover{
         color:lightgray;
@@ -127,6 +127,7 @@
     }
 
     button {
+      outline-color: $red-color;
       cursor: pointer;
       border: none;
       background-color: transparent;
