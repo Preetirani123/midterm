@@ -10,3 +10,22 @@
   }
 
 }
+
+@media only screen and (max-width: 768px){
+
+  #item-container{
+    .item-menu{
+      width: 45.33%;
+      img{
+        height: auto;
+        min-height: 250px;
+      }
+    }
+  }
+
+  #order-container{
+    margin: 50px 11px;
+    padding: 30px 15px;
+  }
+
+}
