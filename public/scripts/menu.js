@@ -11,17 +11,11 @@ const createMenuElement = function (data) {
     </div>
     <h3>${data.food_item}</h3>
     <p>${data.nation}</p>
-    <p>${data.description}</p>
+    <p class="discrib">${data.description}</p>
     <div class="cart-container">
-      <p>$${data.price}</p>
+      <p class="cost-price">Cost $${data.price}</p>
       <div class="quantity">
-        <button class="plus-btn" type="button" name="button">
-          <i class="fas fa-plus"></i>
-        </button>
-        <input type="text" name="name" value="1" width= "54px">
-        <button class="minus-btn" type="button" name="button" >
-          <i class="fas fa-minus"></i>
-        </button>
+        <p class="cost-price">Rating </p>
       </div>
     </div>
     <div class="add-cart">
