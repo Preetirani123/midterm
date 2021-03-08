@@ -11,6 +11,7 @@
 <!--SCRIPTS-->
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/search.js"></script>
     <script type="text/javascript" src="/scripts/menu.js"></script>
     <script type="text/javascript" src="/scripts/order.js"></script>
   </head>
@@ -18,17 +19,12 @@
   <div id="added_to_cart">Added To Cart →</div>
     <nav>
       <span><h3>LOGO</h3></span>
-      <span class="search">
-        <form  action="" method="">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-      </span>
 
+      <span id = "search" class="search"></span>
       <span class=" fas-right">
-      <p id="cart_size">0</p>
-      <span id="head_to_checkout"><i class="fas fa-cart-arrow-down"></i></span>
-    </span>
+        <p id="cart_size">0</p>
+        <span id="head_to_checkout"><i class="fas fa-cart-arrow-down"></i></span>
+      </span>
     </nav>
     <header>
        <a id="menu_btn">Menu</a>
@@ -43,5 +39,6 @@
       <div id='complete-container'></div>
     </section>
     <footer><p>Mind Term Project © 2021. All Rights Reserved</p></footer>
+
   </body>
 </html>
