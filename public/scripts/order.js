@@ -209,14 +209,59 @@ const createOrderPlacedElement = () => {
 const calculateEstimatedWait = () => {
 
 const map = _cart.map(x => x = x.est_time);
-map.sort(function(a,b){
+map.sort(function(a, b){
 
-  return b - a;
+return b - a;
 });
 
 return map[0];
 
 }
+
+//fetches the current users past orders
+const addQuickOrderListener = () => {
+
+  $('#quick-order-btn').on('click', () => {
+
+  const id = sessionStorage.getItem('pseudoUser');
+  const url = `/api/quick_orders/${id}`;
+  _cart = [];
+
+  if(!id){
+    return alert('Order History Not Found');
+  }
+
+  $.ajax({
+    url: url,
+    type: 'GET',
+
+    success: data => {
+      quickOrderElement(data.orders);
+    },
+    error: error => {
+      console.log(error.responseText);
+    },
+  });
+});
+}
+
+//display the users past orders
+const quickOrderElement = lastOrder => {
+
+
+  for (const past_item of lastOrder.food) {
+
+    for (const menu_item of _menu) {
+        if (past_item == menu_item.id){
+          _cart.push(menu_item);
+        }
+    }
+  }
+  $('#cart_size').html(`${_cart.length}`);
+  $('#quick-order-btn').fadeOut('slow');
+  return headToCheckout();
+
+};
 
 
 //scrolls the menu and checkout containers into view
