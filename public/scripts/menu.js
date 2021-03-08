@@ -1,6 +1,3 @@
-$(document).ready(() => {
-  fetchMenu();
-});
 
 const createMenuElement = function (data) {
 

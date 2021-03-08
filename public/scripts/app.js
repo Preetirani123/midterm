@@ -1,12 +1,17 @@
-$(() => {
-  $.ajax({
-    method: "GET",
-    url: "/api/users"
-  }).done((users) => {
+$(document).ready(() => {
+  fetchMenu();
+  addMenuClickedListener();
+  addHeadToCheckoutListener();
 
-// -----> PSEUDO USER
-    sessionStorage.setItem('pseudoUser', users.user.id);
-    sessionStorage.setItem('username', users.user.name);
-    // console.log(users.user);
-  });;
+  $(() => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users"
+    }).done((users) => {
+
+  // -----> PSEUDO USER
+      sessionStorage.setItem('pseudoUser', users.user.id);
+      sessionStorage.setItem('username', users.user.name);
+    });;
+  });
 });

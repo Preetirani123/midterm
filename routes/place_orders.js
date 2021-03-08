@@ -14,9 +14,9 @@ module.exports = (db) => {
     VALUES ($1, $2, $3, now())
     RETURNING orders.id;`, values)
       .then(data => {
+
         const order_id = data.rows[0].id;
         res.json(order_id);
-
 
 
       // ------>
@@ -24,14 +24,16 @@ module.exports = (db) => {
       // ------>
 
 
-        const est_time =  60 * 1000;// temp. test value
+        const est_time = Number(req.body.est_time) * 60 * 1000;// minutes to milliseconds
+        console.log("EST_TIME", est_time);
         setTimeout(function(){
-        console.log(`Testing Server Side Timeout`);
+        console.log(`Testing Server Side Timeout: ${est_time}`);
+
         // ------>
         // ------> TWILLIO TEXT MSG TO CLIENT WILL BE CALLED HERE, MAYBE?
         // ------> Not sure if setTimeouts can be used on the server reliably.
 
-          },est_time)
+          },est_time);
 
 
       })
