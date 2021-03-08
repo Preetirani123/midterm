@@ -18,7 +18,6 @@ module.exports = (db) => {
         const order = data.rows[0];
         res.json({ order });
 
-// ------> TWILLIO TEXT MSG FUNCTIONALITY WILL BE CALLED HERE <--------
 
 
       })

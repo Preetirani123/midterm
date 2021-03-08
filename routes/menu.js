@@ -12,7 +12,7 @@ module.exports = (db) => {
         const menu = data.rows;
         res.json({ menu });
 
-        // console.log(menu); //for testing
+
 
       })
       .catch(err => {
