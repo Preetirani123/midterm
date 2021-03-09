@@ -16,6 +16,8 @@ const navToMenu = () => {
   scrollIntoView();
 }
 
+//populates page with items from menu db
+
 const createMenuElement = function (data) {
 
   const $menu = $(`
@@ -38,6 +40,8 @@ const createMenuElement = function (data) {
   </div>`);
   return $menu;
 };
+
+//ajax call to retrieve menu db info
 
 const fetchMenu = () => {
   const url = `/api/menu`;

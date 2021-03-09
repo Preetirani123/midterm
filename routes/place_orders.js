@@ -33,10 +33,10 @@ module.exports = (db) => {
     RETURNING orders.id;`, values)
       .then(data => {
 
-
         const order_id = data.rows[0].id;
         req.session = order_id;
         res.json(order_id);
+
 
         // text message to restaraunt
         client.messages
@@ -47,6 +47,7 @@ module.exports = (db) => {
            to: kitchenNumber,
          })
         .then(message => console.log(message.sid));
+
 
 
       })
