@@ -1,3 +1,19 @@
+//add an on menu clicked listener
+const addMenuClickedListener = () => {
+  $('#menu_btn').on('click', () => {
+    navToMenu();
+  });
+};
+
+//shows main menu
+const navToMenu = () => {
+  $('.fas-right').fadeIn('slow');
+  $('#quick-order').css('display','flex');
+  $('#order-container').css('display', 'none');
+  $('#order-container').html('');
+  $("#item-container").fadeIn('slow');
+  scrollIntoView();
+}
 
 const createMenuElement = function (data) {
 
