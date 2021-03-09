@@ -9,7 +9,8 @@ footer {
   }
 }
 
-#quick-order-btn{
+
+#quick-order{
   cursor: pointer;
   position: fixed;
   display: flex;
@@ -18,7 +19,7 @@ footer {
   width: 90px;
   height: 90px;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   background-color: $white-color;
   border-style: solid;
   border-width: 5px;

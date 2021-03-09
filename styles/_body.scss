@@ -5,7 +5,8 @@
 
 .anchor{
   display: none;
-  height: 120px;
+  height: 180px;
+
 }
 
 
@@ -125,10 +126,14 @@
       border-radius: 50%;
     }
     h3{
-      width: 100px;
+      width: 200px;
       color:black;
       text-align: left;
 
+    }
+
+    label{
+      color: $red-color;
     }
 
     button {

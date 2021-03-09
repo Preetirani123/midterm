@@ -18,8 +18,6 @@ module.exports = (db) => {
         const order = data.rows[0];
         res.json({ order });
 
-
-
       })
       .catch(err => {
         res

@@ -41,7 +41,7 @@ module.exports = (db) => {
         .create({
            body: `Your food is ready!`,
            from: phoneNumber,
-           to: '+17788865426'
+           to: process.env.KITCHEN_NUMBER
          })
         .then(message => console.log(message.sid));
         // ------> Not sure if setTimeouts can be used on the server reliably.
