@@ -14,7 +14,7 @@ module.exports = (db) => {
     const user = req.body.user;
     const menu_items = req.body.menu_items;
     const values = [user, menu_items[0], menu_items];
-
+    console.log(req.body.food_items);
 
     db.query(`
     INSERT INTO orders (user_id, menu_id, food_items_by_id, order_time)
