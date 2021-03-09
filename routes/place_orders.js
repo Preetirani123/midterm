@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const concatFoodItems = require('./helperFuncs/concatFoodOrder');
 
 require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -14,7 +15,9 @@ module.exports = (db) => {
     const user = req.body.user;
     const menu_items = req.body.menu_items;
     const values = [user, menu_items[0], menu_items];
+    const foodString = concatFoodItems(req.body.food_items);
 
+    console.log(`Thanks for your order! Your ${foodString} will be ready in 30 minutes`);
 
     db.query(`
     INSERT INTO orders (user_id, menu_id, food_items_by_id, order_time)
@@ -28,23 +31,23 @@ module.exports = (db) => {
 
         client.messages
         .create({
-           body: `Thanks for your order! Your food will be ready in ${req.body.est_time} minutes`,
+           body: `Thanks for your order! Your ${foodString} will be ready in 30 minutes`,
            from: phoneNumber,
            to: '+17788865426'
          })
         .then(message => console.log(message.sid));
 
 
-        const est_time = Number(req.body.est_time) * 60 * 1000;// minutes to milliseconds
-        setTimeout(function(){
-        console.log(`Testing Server Side Timeout: ${est_time}`);
-        client.messages
-        .create({
-           body: `Your food is ready!`,
-           from: phoneNumber,
-           to: '+17788865426'
-         })
-        .then(message => console.log(message.sid));
+        // const est_time = 60 * 1000;// TEST VALUE
+        // setTimeout(function(){
+        // console.log(`Testing Server Side Timeout: ${est_time}`);
+        // client.messages
+        // .create({
+        //    body: `Your food is ready!`,
+        //    from: phoneNumber,
+        //    to: process.env.KITCHEN_NUMBER
+        //  })
+        // .then(message => console.log(message.sid));
         // ------> Not sure if setTimeouts can be used on the server reliably.
 
 
@@ -53,7 +56,7 @@ module.exports = (db) => {
 
 
 
-          },est_time);
+          // },est_time);
 
 
       })

@@ -2,23 +2,6 @@
 let _menu = [];
 let _cart = [];
 
-//add an on menu clicked listener
-const addMenuClickedListener = () => {
-  $('#menu_btn').on('click', () => {
-    navToMenu();
-  });
-
-};
-
-//shows main menu
-const navToMenu = () => {
-  $('.fas-right').fadeIn('slow');
-  $('#order-container').css('display', 'none');
-  $('#order-container').html('');
-  $("#item-container").fadeIn('slow');
-  scrollIntoView();
-}
-
 //adds order item to cart
 const addToCart = menu_id => {
 
@@ -34,6 +17,7 @@ const addToCart = menu_id => {
      return $('#cart_size').html(`${_cart.length}`);
     }
   }
+
 };
 
 //adds a listener event to the headToCheckout function
@@ -48,15 +32,16 @@ const addHeadToCheckoutListener = () => {
 const headToCheckout = () => {
 
   if(!_cart || _cart.length < 1) {
-    $('#added_to_cart').html(`! You have no items in your cart`);
+    $('#added_to_cart').html(`You have no items in your cart`);
     $('#added_to_cart').fadeIn('slow');
     setTimeout(function(){
     $('#added_to_cart').slideUp('slow');
     },2000);
     return;
   }
-
-  $('.fas-right').css('display','none');
+  $('#search').fadeOut('slow');
+  $('.fas-right').fadeOut('slow');
+  $('#quick-order').css('display','none');
   $('#order-container').css('display', 'none');
   $('#order-container').html('');
 
@@ -69,18 +54,24 @@ const headToCheckout = () => {
   `
   orderElements.push($orderDetails);
 
-  for (const item of _cart) {
+  //bundles the same menu items together for the UI update
+  const sorted = sortObjArrayById(_cart);
+  const reduce = reduceObjArrayById(sorted);
+  bundleCartItems(sorted, reduce);
+  //---------------
+
+  for (const item of reduce) {
 
     let $orderDetails = `
     <section>
     <img src='${item.image_url}'/>
-    <h3>${item.food_item}</h3>
+    <h3>${item.food_item} <label>(${item.qt})</label></h3>
     <h3>$${item.price}</h3>
     <button id=${item.id} onclick="removeFromCart(this.id)">remove item</button>
     </section>
     `
     orderElements.push($orderDetails);
-    totalPrice += Number(item.price);
+    totalPrice += Number(item.price * item.qt);
   }
 
     $orderDetails = `
@@ -132,13 +123,13 @@ const addPlaceOrderListener = () => {
 
   $('#place_order').on('click', () => {
 
+    const food_items = _cart.map(x => x = x.food_item);
     const menu_ids = _cart.map(x => x = x.id);
-    const est_time = calculateEstimatedWait();
 
     const orderData = {
       user: sessionStorage.getItem('pseudoUser'),
+      food_items: food_items,
       menu_items: menu_ids,
-      est_time: est_time
     }
 
     $.ajax({
@@ -178,7 +169,7 @@ const processingOrderAnimation = () => {
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = () => {
 
-  const minutes = calculateEstimatedWait();
+  const minutes = 30; // TEST VALUE
   const waitTime = Number(minutes) * 60 * 1000;
   const pickUpTime = new Date(new Date().getTime() + waitTime).toLocaleTimeString();
 
@@ -205,23 +196,10 @@ const createOrderPlacedElement = () => {
 };
 
 
-//calcualte the longest estimated wait time
-const calculateEstimatedWait = () => {
-
-const map = _cart.map(x => x = x.est_time);
-map.sort(function(a, b){
-
-return b - a;
-});
-
-return map[0];
-
-}
-
 //fetches the current users past orders
 const addQuickOrderListener = () => {
 
-  $('#quick-order-btn').on('click', () => {
+  $('#quick-order').on('click', () => {
 
   const id = sessionStorage.getItem('pseudoUser');
   const url = `/api/quick_orders/${id}`;
@@ -248,52 +226,33 @@ const addQuickOrderListener = () => {
 //display the users past orders
 const quickOrderElement = lastOrder => {
 
+  if(!lastOrder){
+    return alert('You must have at least one previous order with us to utilize quick order.');
+  }
 
   for (const past_item of lastOrder.food) {
 
     for (const menu_item of _menu) {
-        if (past_item == menu_item.id){
+        if (Number(past_item) === Number(menu_item.id)){
+
           _cart.push(menu_item);
         }
     }
   }
   $('#cart_size').html(`${_cart.length}`);
-  $('#quick-order-btn').fadeOut('slow');
+  $('#quick-order').fadeOut('slow');
   return headToCheckout();
 
 };
 
 
-//scrolls the menu and checkout containers into view
-const scrollIntoView = () => {
 
-  $('.anchor').slideDown('slow');
-
-  $('html, body').animate({
-    scrollTop: $(".anchor").offset().top
-
-   }, 1000);
-
-
-   $(window).scroll( () => {
-
-    let scroll = $(window).scrollTop();
-
-    if (scroll < 1) {
-      $('.anchor').slideUp('slow');
-    }
-
-  });
-
-
-
-}
 
 
 //fetches the users recently placed order by order_id.
-const fetchOrderDetails = id => {
+const fetchOrderDetails = () => {
 
-  const url = `/api/fetch_orders/${id}`;
+  const url = `/api/fetch_orders`;
 
   $.ajax({
     url: url,

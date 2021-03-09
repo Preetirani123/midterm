@@ -3,7 +3,7 @@ $(document).ready(() => {
   addQuickOrderListener();
   addMenuClickedListener();
   addHeadToCheckoutListener();
-
+  fetchOrderDetails();
   $(() => {
     $.ajax({
       method: "GET",
