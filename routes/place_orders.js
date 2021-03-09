@@ -17,7 +17,6 @@ const phoneNumber = process.env.TWILIO_NUMBER;
 const kitchenNumber = process.env.KITCHEN_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
-
 module.exports = (db) => {
   router.post("/", (req, res) => {
 
@@ -38,6 +37,7 @@ module.exports = (db) => {
         res.json(order_id);
 
 
+
         // text message to restaraunt
         client.messages
         .create({
@@ -47,6 +47,7 @@ module.exports = (db) => {
            to: kitchenNumber,
          })
         .then(message => console.log(message.sid));
+
 
 
 
