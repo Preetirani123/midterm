@@ -10,6 +10,7 @@ CREATE TABLE orders (
   order_time TIMESTAMP,
   order_fulfilled BOOLEAN DEFAULT FALSE,
   est_time VARCHAR(255) DEFAULT NULL
+
 );
 
 

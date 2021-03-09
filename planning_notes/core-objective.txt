@@ -6,4 +6,5 @@ The restaurant and client both need to be notified since this app serves as an i
 
 When an order is placed the restaurant receives the order via SMS. The restaurant can then specify how long it will take to fulfill it. Once they provide this information, the website updates for the client and also notifies them via SMS.
 
+
 You can use a modern telecomm API service such as Twilio to implement SMS communication from the website to the client and restaurant.

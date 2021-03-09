@@ -12,7 +12,7 @@ $(document).ready(() => {
 
   $("#filter").keyup(function() {
     let filter = $(this).val();
-
+    scrollIntoView();
     $("#item-container .item-menu").each(function() {
       if ($(this).text().search(new RegExp(filter, "i")) < 0) {
         $(this).fadeOut();
@@ -22,3 +22,6 @@ $(document).ready(() => {
     });
   });
 });
+
+
+

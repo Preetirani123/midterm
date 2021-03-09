@@ -45,7 +45,11 @@ const menuRoutes = require("./routes/menu");
 const place_ordersRoute = require("./routes/place_orders");
 const quick_ordersRoute = require("./routes/quick_orders");
 const fetch_ordersRoute = require("./routes/fetch_orders");
+
 const smsRoute = require("./routes/sms");
+
+const estTimeListener = require("./routes/est_time_listener");
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -54,7 +58,12 @@ app.use("/api/menu", menuRoutes(db));
 app.use("/api/place_orders", place_ordersRoute(db));
 app.use("/api/quick_orders", quick_ordersRoute(db));
 app.use("/api/fetch_orders", fetch_ordersRoute(db));
+
 app.use("/sms", smsRoute(db));
+
+app.use("/api/est_time_listener", estTimeListener(db));
+
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page

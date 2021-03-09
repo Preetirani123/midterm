@@ -1,3 +1,22 @@
+//add an on menu clicked listener
+const addMenuClickedListener = () => {
+  $('#menu_btn').on('click', () => {
+    navToMenu();
+  });
+};
+
+//shows main menu
+const navToMenu = () => {
+  $('#search').fadeIn('slow');
+  $('.fas-right').fadeIn('slow');
+  $('#quick-order').css('display','flex');
+  $('#order-container').css('display', 'none');
+  $('#order-container').html('');
+  $("#item-container").fadeIn('slow');
+  scrollIntoView();
+}
+
+//populates page with items from menu db
 
 const createMenuElement = function (data) {
 
@@ -21,6 +40,8 @@ const createMenuElement = function (data) {
   </div>`);
   return $menu;
 };
+
+//ajax call to retrieve menu db info
 
 const fetchMenu = () => {
   const url = `/api/menu`;

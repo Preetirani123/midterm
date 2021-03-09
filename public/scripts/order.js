@@ -2,22 +2,6 @@
 let _menu = [];
 let _cart = [];
 
-//add an on menu clicked listener
-const addMenuClickedListener = () => {
-  $("#menu_btn").on("click", () => {
-    navToMenu();
-  });
-};
-
-//shows main menu
-const navToMenu = () => {
-  $(".fas-right").fadeIn("slow");
-  $("#order-container").css("display", "none");
-  $("#order-container").html("");
-  $("#item-container").fadeIn("slow");
-  scrollIntoView();
-};
-
 //adds order item to cart
 const addToCart = (menu_id) => {
   for (const item of _menu) {
@@ -31,6 +15,7 @@ const addToCart = (menu_id) => {
       return $("#cart_size").html(`${_cart.length}`);
     }
   }
+
 };
 
 //adds a listener event to the headToCheckout function
@@ -42,18 +27,22 @@ const addHeadToCheckoutListener = () => {
 
 //builds the checkout html element
 const headToCheckout = () => {
-  if (!_cart || _cart.length < 1) {
-    $("#added_to_cart").html(`! You have no items in your cart`);
-    $("#added_to_cart").fadeIn("slow");
-    setTimeout(function () {
-      $("#added_to_cart").slideUp("slow");
-    }, 2000);
+
+
+  if(!_cart || _cart.length < 1) {
+    $('#added_to_cart').html(`You have no items in your cart`);
+    $('#added_to_cart').fadeIn('slow');
+    setTimeout(function(){
+    $('#added_to_cart').slideUp('slow');
+    },2000);
     return;
   }
+  $('#search').fadeOut('slow');
+  $('.fas-right').fadeOut('slow');
+  $('#quick-order').css('display','none');
+  $('#order-container').css('display', 'none');
+  $('#order-container').html('');
 
-  $(".fas-right").css("display", "none");
-  $("#order-container").css("display", "none");
-  $("#order-container").html("");
 
   const orderElements = [];
   let totalPrice = 0;
@@ -64,17 +53,26 @@ const headToCheckout = () => {
   `;
   orderElements.push($orderDetails);
 
-  for (const item of _cart) {
+
+  //bundles the same menu items together for the UI update
+  const sorted = sortObjArrayById(_cart);
+  const reduce = reduceObjArrayById(sorted);
+  bundleCartItems(sorted, reduce);
+  //---------------
+
+  for (const item of reduce) {
+
+
     let $orderDetails = `
     <section>
     <img src='${item.image_url}'/>
-    <h3>${item.food_item}</h3>
+    <h3>${item.food_item} <label>(${item.qt})</label></h3>
     <h3>$${item.price}</h3>
     <button id=${item.id} onclick="removeFromCart(this.id)">remove item</button>
     </section>
     `;
     orderElements.push($orderDetails);
-    totalPrice += Number(item.price);
+    totalPrice += Number(item.price * item.qt);
   }
 
   $orderDetails = `
@@ -117,15 +115,23 @@ const removeFromCart = (menu_id) => {
 
 //allows the current user to place an order
 const addPlaceOrderListener = () => {
-  $("#place_order").on("click", () => {
-    const menu_ids = _cart.map((x) => (x = x.id));
-    const est_time = calculateEstimatedWait();
+
+
+  $('#place_order').on('click', () => {
+
+    const currentUser = {
+      id: sessionStorage.getItem('pseudoUser'),
+      name: sessionStorage.getItem('username')
+    }
+    const food_items = _cart.map(x => x = x.food_item);
+    const menu_ids = _cart.map(x => x = x.id);
 
     const orderData = {
-      user: sessionStorage.getItem("pseudoUser"),
+      user: currentUser,
+      food_items: food_items,
       menu_items: menu_ids,
-      est_time: est_time,
-    };
+    }
+
 
     $.ajax({
       url: "/api/place_orders",
@@ -137,8 +143,11 @@ const addPlaceOrderListener = () => {
         $("#complete-container").fadeIn("slow");
         $(".inner-complete-container").slideDown("slow");
 
-        //test function for simulating SMS received update
-        simulateSMS();
+
+        //setInterval waiting on restaraunt response
+        checkForRestaurantResponse(data);
+
+
       },
       error: (error) => {
         console.log(error.responseText);
@@ -146,6 +155,58 @@ const addPlaceOrderListener = () => {
     });
   });
 };
+
+//checks the database for rest. est. time response
+const checkForRestaurantResponse = order_id => {
+  let kill = 0;
+
+  const checkServer = setInterval(function(){
+
+    kill++;
+
+    $.ajax({
+      url: `/api/est_time_listener/${order_id}`,
+      type: 'GET',
+
+      success: data => {
+
+      const timeStr = JSON.stringify(data.time.time);
+
+      if(!timeStr || timeStr !== 'null') {
+      clearInterval(checkServer);
+      receivedSMS(timeStr);
+      console.log(`SUCCESS => Est. wait time is ${timeStr} minutes.`);
+      } else {
+      console.log('Est time = NULL => Recall chx server func');
+      }
+      },
+      error: error => {
+        console.log(error.responseText);
+        console.log('KILL => Responded with error.')
+      },
+    });
+
+    if (kill > 20) {
+      clearInterval(checkServer);
+      console.log('KILL => server timed out.')
+    }
+
+  }, 5000)// checks the server every 5 seconds
+
+};
+
+//SMS received from restaurant
+const receivedSMS = time => {
+
+  console.log(`Call Status bar func with => ${time}`) //<------ CALL STATUS BAR FUNCTION HERE
+
+  $(".inner-complete-container").fadeOut('slow');
+  $("#complete-container").append(createOrderPlacedElement);
+
+  setTimeout(function(){
+    $(".final-complete-container").fadeIn('slow');
+  },1000);
+}
 
 //creates a spinner animation while the SMS functionality is being handled
 const processingOrderAnimation = () => {
@@ -160,7 +221,11 @@ const processingOrderAnimation = () => {
 
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = () => {
-  const minutes = calculateEstimatedWait();
+
+
+
+  const minutes = 30; // TEST VALUE
+
   const waitTime = Number(minutes) * 60 * 1000;
   const pickUpTime = new Date(
     new Date().getTime() + waitTime
@@ -168,7 +233,15 @@ const createOrderPlacedElement = () => {
 
   const $orderMSg = `<section class='final-complete-container'>
   <div style='width:50px'><a href='/'><h6>menu<h6></a></div>
-  <h4>
+
+
+<div id="myProgress">
+  <div id="myBar"> </div>
+</div>
+<br>
+<button onclick="move()">Click Me</button>
+
+<h4>
   Your order will be ready in
   </h4>
   <p>
@@ -180,7 +253,7 @@ const createOrderPlacedElement = () => {
   <p>
   ${pickUpTime}
   <p>
-  <a href='https://www.google.com/maps/dir/?api=1&origin=&destination=Stanley+Park+Vancouver+BC&travelmode=bicycling' target='_blank'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2aQejmdcLqj9jgx9LMaOwaAM0YDZpAkMohg&usqp=CAU'/></a>
+  <a href='https://www.google.com/maps2/dir/?api=1&origin=&destination=Stanley+Park+Vancouver+BC&travelmode=bicycling' target='_blank'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2aQejmdcLqj9jgx9LMaOwaAM0YDZpAkMohg&usqp=CAU'/></a>
   </section>`;
 
   _cart = [];
@@ -188,40 +261,8 @@ const createOrderPlacedElement = () => {
   return $orderMSg;
 };
 
-//calcualte the longest estimated wait time
-const calculateEstimatedWait = () => {
-  // const map = _cart.map(x => x = x.est_time);
-  // map.sort(function(a, b){
 
-  // return b - a;
-  // });
 
-  // return map[0];
-
-  // const url = `/sms`;
-  // $.ajax({
-  //   url: url,
-  //   type: "POST",
-  //   success: (data) => {
-  //     //console.log(req.body.Body);
-  //     console.log(data);
-  //     return data
-  //   },
-  //   error: (error) => {
-  //     console.log(error.responseText);
-  //   },
-  // });
-
-  setInterval(() => {
-    $.post('/sms/')
-      .then((order) => {
-        console.log("hi")
-        if (order.textBody) {
-          return textBody
-        }
-      });
-  }, 5000);
-};
 
 //fetches the current users past orders
 const addQuickOrderListener = () => {
@@ -230,9 +271,17 @@ const addQuickOrderListener = () => {
     const url = `/api/quick_orders/${id}`;
     _cart = [];
 
-    if (!id) {
-      return alert("Order History Not Found");
-    }
+
+  $('#quick-order').on('click', () => {
+
+  const id = sessionStorage.getItem('pseudoUser');
+  const url = `/api/quick_orders/${id}`;
+  _cart = [];
+
+  if(!id){
+    return alert('Order History Not Found');
+  }
+
 
     $.ajax({
       url: url,
@@ -249,49 +298,51 @@ const addQuickOrderListener = () => {
 };
 
 //display the users past orders
-const quickOrderElement = (lastOrder) => {
+
+
+const quickOrderElement = lastOrder => {
+
+  if(!lastOrder){
+    return alert('You must have at least one previous order with us to utilize quick order.');
+  }
+
+
   for (const past_item of lastOrder.food) {
     for (const menu_item of _menu) {
-      if (past_item == menu_item.id) {
-        _cart.push(menu_item);
-      }
+
+
+        if (Number(past_item) === Number(menu_item.id)){
+
+          _cart.push(menu_item);
+        }
     }
   }
-  $("#cart_size").html(`${_cart.length}`);
-  $("#quick-order-btn").fadeOut("slow");
+  $('#cart_size').html(`${_cart.length}`);
+  $('#quick-order').fadeOut('slow');
+
   return headToCheckout();
 };
 
-//scrolls the menu and checkout containers into view
-const scrollIntoView = () => {
-  $(".anchor").slideDown("slow");
 
-  $("html, body").animate(
-    {
-      scrollTop: $(".anchor").offset().top,
-    },
-    1000
-  );
 
-  $(window).scroll(() => {
-    let scroll = $(window).scrollTop();
 
-    if (scroll < 1) {
-      $(".anchor").slideUp("slow");
-    }
-  });
-};
 
-//fetches the users recently placed order by order_id.
-const fetchOrderDetails = (id) => {
-  const url = `/api/fetch_orders/${id}`;
+
+//fetches all order history
+const fetchOrderDetails = () => {
+
+  const url = `/api/fetch_orders`;
+
 
   $.ajax({
     url: url,
     type: "GET",
 
-    success: (data) => {
-      console.log(data);
+
+    success: data => {
+      console.log('Total orders in DB: ',data);
+
+
     },
     error: (error) => {
       console.log(error.responseText);
@@ -299,14 +350,52 @@ const fetchOrderDetails = (id) => {
   });
 };
 
-//test function for simulating SMS received from restaurant
-const simulateSMS = () => {
-  setTimeout(function () {
-    $(".inner-complete-container").fadeOut("slow");
-    $("#complete-container").append(createOrderPlacedElement);
 
-    setTimeout(function () {
-      $(".final-complete-container").fadeIn("slow");
-    }, 1000);
-  }, 5000);
-};
+// Set time out for order process bar
+
+function move() {
+  let message = ['Preparing', 'Ready-for-delivered', 'Completed'];
+  let interval = [10, 20, 30]
+  let elem = document.getElementById("myBar");
+
+  let width = 100;
+  let i = 0;
+
+  let id = setInterval(frame, 200);
+
+  function frame() {
+
+    width = width - 1;
+    elem.style.width = width + "%";
+    elem.textContent = message[i];
+    if (width == 0 && i < 3) {
+      width = 100;
+      i++;
+    }
+    if (i == 3) {
+      clearInterval(id);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
