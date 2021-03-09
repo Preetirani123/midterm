@@ -28,9 +28,9 @@ module.exports = (db) => {
 
         client.messages
         .create({
-           body: `You have a new order. Details: ${req.body.menu_items}`,
+           body: `You have a new order. Details:`,
            from: phoneNumber,
-           to: process.env.USER_NUMBER
+           to: process.env.KITCHEN_NUMBER
          })
         .then(message => console.log(message.sid));
 
