@@ -38,6 +38,8 @@ One order can have many menu items
 * Stretch: As a user who has ordered, I can see a progress bar showing me the progress of my meal, because 
 I want to be updated on the cooking and delivery (ala Dominos)
 
+* STRETCH: Add GST..
+
 ### Tables
 
 User

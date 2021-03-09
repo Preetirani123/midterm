@@ -22,6 +22,7 @@ header {
 
 
 #myBtnn{
+  cursor: pointer;
   width: 70px;
     height: 70px;
     padding: 10px;
@@ -42,3 +43,31 @@ header {
     background:$red-color;
   }
 }
+
+
+#quick-order{
+  cursor: pointer;
+  z-index: 3;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  top: 120px;
+  right: 7px;
+  padding: 7px;
+  background-color: $white-color;
+  border-style: solid;
+  border-width: 3px;
+  border-color: $red-color;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  text-align: center;
+  color: $red-color;
+  font-size: 1rem;
+  &:hover{
+    border-color: red;
+    color: red;
+
+  }
+  }
