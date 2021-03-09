@@ -85,6 +85,7 @@ const headToCheckout = () => {
   return renderCheckoutPage(orderElements);
 };
 
+
 //takes the array of html elements as an args and renders the users checkout details
 const renderCheckoutPage = (order) => {
   $("#item-container").css("display", "none");
@@ -208,6 +209,7 @@ const receivedSMS = time => {
   },1000);
 }
 
+
 //creates a spinner animation while the SMS functionality is being handled
 const processingOrderAnimation = () => {
   const $processing = `<section class='inner-complete-container'>
@@ -221,8 +223,6 @@ const processingOrderAnimation = () => {
 
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = () => {
-
-
 
   const minutes = 30; // TEST VALUE
 
@@ -262,14 +262,8 @@ const createOrderPlacedElement = () => {
 };
 
 
-
-
 //fetches the current users past orders
 const addQuickOrderListener = () => {
-  $("#quick-order-btn").on("click", () => {
-    const id = sessionStorage.getItem("pseudoUser");
-    const url = `/api/quick_orders/${id}`;
-    _cart = [];
 
 
   $('#quick-order').on('click', () => {
@@ -295,11 +289,9 @@ const addQuickOrderListener = () => {
       },
     });
   });
-};
+  }
 
 //display the users past orders
-
-
 const quickOrderElement = lastOrder => {
 
   if(!lastOrder){
@@ -337,7 +329,6 @@ const fetchOrderDetails = () => {
   $.ajax({
     url: url,
     type: "GET",
-
 
     success: data => {
       console.log('Total orders in DB: ',data);
