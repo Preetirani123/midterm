@@ -22,6 +22,7 @@ module.exports = (db) => {
     RETURNING orders.id;`, values)
       .then(data => {
 
+
         const order_id = data.rows[0].id;
         res.json(order_id);
 
