@@ -7,6 +7,7 @@ const addMenuClickedListener = () => {
 
 //shows main menu
 const navToMenu = () => {
+  $('#search').fadeIn('slow');
   $('.fas-right').fadeIn('slow');
   $('#quick-order').css('display','flex');
   $('#order-container').css('display', 'none');
