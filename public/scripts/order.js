@@ -175,7 +175,15 @@ const createOrderPlacedElement = () => {
 
   const $orderMSg = `<section class='final-complete-container'>
   <div style='width:50px'><a href='/'><h6>menu<h6></a></div>
-  <h4>
+
+
+<div id="myProgress">
+  <div id="myBar"> </div>
+</div>
+<br>
+<button onclick="move()">Click Me</button>
+
+<h4>
   Your order will be ready in
   </h4>
   <p>
@@ -284,6 +292,39 @@ const simulateSMS = () => {
 
     },5000);
 }
+
+
+
+// Set time out for order process bar
+
+function move() {
+  let message = ['Preparing', 'Ready-for-delivered', 'Completed'];
+  let interval = [10, 20, 30]
+  let elem = document.getElementById("myBar");
+
+  let width = 100;
+  let i = 0;
+
+  let id = setInterval(frame, 200);
+
+  function frame() {
+
+    width = width - 1;
+    elem.style.width = width + "%";
+    elem.textContent = message[i];
+    if (width == 0 && i < 3) {
+      width = 100;
+      i++;
+    }
+    if (i == 3) {
+      clearInterval(id);
+    }
+  }
+}
+
+
+
+
 
 
 
