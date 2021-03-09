@@ -123,11 +123,15 @@ const addPlaceOrderListener = () => {
 
   $('#place_order').on('click', () => {
 
+    const currentUser = {
+      id: sessionStorage.getItem('pseudoUser'),
+      name: sessionStorage.getItem('username')
+    }
     const food_items = _cart.map(x => x = x.food_item);
     const menu_ids = _cart.map(x => x = x.id);
 
     const orderData = {
-      user: sessionStorage.getItem('pseudoUser'),
+      user: currentUser,
       food_items: food_items,
       menu_items: menu_ids,
     }
@@ -142,8 +146,8 @@ const addPlaceOrderListener = () => {
         $("#complete-container").fadeIn('slow');
         $(".inner-complete-container").slideDown('slow');
 
-        //test function for simulating SMS received update
-        simulateSMS();
+        //setInterval waiting on restaraunt response
+        checkForRestaurantResponse(data);
 
       },
       error: error => {
@@ -153,6 +157,58 @@ const addPlaceOrderListener = () => {
 
   });
 };
+
+//checks the database for rest. est. time response
+const checkForRestaurantResponse = order_id => {
+  let kill = 0;
+
+  const checkServer = setInterval(function(){
+
+    kill++;
+
+    $.ajax({
+      url: `/api/est_time_listener/${order_id}`,
+      type: 'GET',
+
+      success: data => {
+
+      const timeStr = JSON.stringify(data.time.time);
+
+      if(!timeStr || timeStr !== 'null') {
+      clearInterval(checkServer);
+      receivedSMS(timeStr);
+      console.log(`SUCCESS => Est. wait time is ${timeStr} minutes.`);
+      } else {
+      console.log('Est time = NULL => Recall chx server func');
+      }
+      },
+      error: error => {
+        console.log(error.responseText);
+        console.log('KILL => Responded with error.')
+      },
+    });
+
+    if (kill > 20) {
+      clearInterval(checkServer);
+      console.log('KILL => server timed out.')
+    }
+
+  }, 5000)// checks the server every 5 seconds
+
+};
+
+//SMS received from restaurant
+const receivedSMS = time => {
+
+  console.log(`Call Status bar func with => ${time}`) //<------ CALL STATUS BAR FUNCTION HERE
+
+  $(".inner-complete-container").fadeOut('slow');
+  $("#complete-container").append(createOrderPlacedElement);
+
+  setTimeout(function(){
+    $(".final-complete-container").fadeIn('slow');
+  },1000);
+}
 
 //creates a spinner animation while the SMS functionality is being handled
 const processingOrderAnimation = () => {
@@ -256,8 +312,7 @@ const quickOrderElement = lastOrder => {
 
 
 
-
-//fetches the users recently placed order by order_id.
+//fetches all order history
 const fetchOrderDetails = () => {
 
   const url = `/api/fetch_orders`;
@@ -267,7 +322,7 @@ const fetchOrderDetails = () => {
     type: 'GET',
 
     success: data => {
-      console.log(data);
+      console.log('Total orders in DB: ',data);
 
     },
     error: error => {
@@ -278,20 +333,7 @@ const fetchOrderDetails = () => {
 };
 
 
-//test function for simulating SMS received from restaurant
-const simulateSMS = () => {
 
-  setTimeout(function(){
-
-    $(".inner-complete-container").fadeOut('slow');
-    $("#complete-container").append(createOrderPlacedElement);
-
-    setTimeout(function(){
-      $(".final-complete-container").fadeIn('slow');
-    },1000);
-
-    },5000);
-}
 
 
 

@@ -1,3 +1,10 @@
-SELECT sum(food_items_by_id) as total_orders, food_items_by_id as food
-FROM orders
-GROUP BY orders.id;
+
+const values = [YOUR STRING];
+
+UPDATE orders
+SET est_time = $1 <-----values
+WHERE orders.id = 1, values; <-- i forgot this
+
+-- UPDATE table_name
+-- SET column1 = value1
+-- WHERE condition;
