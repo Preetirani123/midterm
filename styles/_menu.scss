@@ -3,7 +3,7 @@ header {
   background: #211f1f;
   padding: 1rem;
   text-align: center;
-  top: 150px;
+  top: 111px;
     position: fixed;
     width: 100%;
   a {
@@ -17,5 +17,28 @@ header {
     &:hover{
       color: $red-color;
     }
+  }
+}
+
+
+#myBtnn{
+  width: 70px;
+    height: 70px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    position: fixed;
+    bottom: 75px;
+    right: 40px;
+    background: #21201f;
+    border-radius: 50%;
+    border: none;
+    .fas{
+      color: $white-color;
+    }
+  &:hover{
+    text-decoration:none;
+    background:$red-color;
   }
 }
