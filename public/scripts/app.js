@@ -1,8 +1,9 @@
 $(document).ready(() => {
   fetchMenu();
+  addQuickOrderListener();
   addMenuClickedListener();
   addHeadToCheckoutListener();
-
+  fetchOrderDetails();
   $(() => {
     $.ajax({
       method: "GET",

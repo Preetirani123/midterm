@@ -7,7 +7,7 @@ CREATE TABLE orders (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   menu_id INTEGER REFERENCES menu(id) ON DELETE CASCADE,
   food_items_by_id INTEGER ARRAY,
-  order_time TIMESTAMP,
+  est_time INTEGER DEFAULT NULL,
   order_fulfilled BOOLEAN DEFAULT FALSE
 );
 
