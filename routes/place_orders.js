@@ -7,7 +7,6 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const phoneNumber = process.env.TWILIO_NUMBER
 const client = require('twilio')(accountSid, authToken);
 
-
 module.exports = (db) => {
   router.post("/", (req, res) => {
 
@@ -25,25 +24,37 @@ module.exports = (db) => {
         const order_id = data.rows[0].id;
         res.json(order_id);
 
+        //Message to restaurant
+
         client.messages
         .create({
-           body: `Thanks for your order! Your food will be ready in ${req.body.est_time} minutes`,
+           body: `You have a new order. Details: ${req.body.menu_items}`,
            from: phoneNumber,
-           to: '+17788865426'
+           to: process.env.USER_NUMBER
          })
         .then(message => console.log(message.sid));
 
 
-        const est_time = Number(req.body.est_time) * 60 * 1000;// minutes to milliseconds
-        setTimeout(function(){
-        console.log(`Testing Server Side Timeout: ${est_time}`);
-        client.messages
-        .create({
-           body: `Your food is ready!`,
-           from: phoneNumber,
-           to: '+17788865426'
-         })
-        .then(message => console.log(message.sid));
+
+        // client.messages
+        // .create({
+        //    body: `Thanks for your order! Your food will be ready in ___ minutes`,
+        //    from: phoneNumber,
+        //    to: process.env.USER_NUMBER
+        //  })
+        // .then(message => console.log(message.sid));
+
+
+        // const est_time = Number(req.body.est_time) * 60 * 1000;// minutes to milliseconds
+        // setTimeout(function(){
+        // console.log(`Testing Server Side Timeout: ${est_time}`);
+        // client.messages
+        // .create({
+        //    body: `Your food is ready!`,
+        //    from: phoneNumber,
+        //    to: process.env.USER_NUMBER
+        //  })
+        // .then(message => console.log(message.sid));
         // ------> Not sure if setTimeouts can be used on the server reliably.
 
 
@@ -52,7 +63,7 @@ module.exports = (db) => {
 
 
 
-          },est_time);
+          // },est_time);
 
 
       })
