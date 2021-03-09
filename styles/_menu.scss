@@ -19,3 +19,26 @@ header {
     }
   }
 }
+
+
+#myBtnn{
+  width: 70px;
+    height: 70px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    position: fixed;
+    bottom: 75px;
+    right: 40px;
+    background: #21201f;
+    border-radius: 50%;
+    border: none;
+    .fas{
+      color: $white-color;
+    }
+  &:hover{
+    text-decoration:none;
+    background:$red-color;
+  }
+}
