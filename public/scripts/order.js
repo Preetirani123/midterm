@@ -198,19 +198,29 @@ const calculateEstimatedWait = () => {
 
   // return map[0];
 
-  const url = `/sms`;
-  $.ajax({
-    url: url,
-    type: "POST",
-    success: (data) => {
-      //console.log(req.body.Body);
-      console.log(data);
-      return data
-    },
-    error: (error) => {
-      console.log(error.responseText);
-    },
-  });
+  // const url = `/sms`;
+  // $.ajax({
+  //   url: url,
+  //   type: "POST",
+  //   success: (data) => {
+  //     //console.log(req.body.Body);
+  //     console.log(data);
+  //     return data
+  //   },
+  //   error: (error) => {
+  //     console.log(error.responseText);
+  //   },
+  // });
+
+  setInterval(() => {
+    $.post('/sms/')
+      .then((order) => {
+        console.log("hi")
+        if (order.textBody) {
+          return textBody
+        }
+      });
+  }, 5000);
 };
 
 //fetches the current users past orders
