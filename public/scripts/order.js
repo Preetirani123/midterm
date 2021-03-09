@@ -2,7 +2,6 @@
 let _menu = [];
 let _cart = [];
 
-
 //adds order item to cart
 const addToCart = menu_id => {
 
@@ -33,16 +32,15 @@ const addHeadToCheckoutListener = () => {
 const headToCheckout = () => {
 
   if(!_cart || _cart.length < 1) {
-    $('#added_to_cart').html(`! You have no items in your cart`);
+    $('#added_to_cart').html(`You have no items in your cart`);
     $('#added_to_cart').fadeIn('slow');
     setTimeout(function(){
     $('#added_to_cart').slideUp('slow');
     },2000);
     return;
   }
-
-
-  $('.fas-right').css('display','none');
+  $('#search').fadeOut('slow');
+  $('.fas-right').fadeOut('slow');
   $('#quick-order').css('display','none');
   $('#order-container').css('display', 'none');
   $('#order-container').html('');
@@ -127,13 +125,11 @@ const addPlaceOrderListener = () => {
 
     const food_items = _cart.map(x => x = x.food_item);
     const menu_ids = _cart.map(x => x = x.id);
-    const est_time = calculateEstimatedWait();
 
     const orderData = {
       user: sessionStorage.getItem('pseudoUser'),
       food_items: food_items,
       menu_items: menu_ids,
-      est_time: est_time
     }
 
     $.ajax({
@@ -173,7 +169,7 @@ const processingOrderAnimation = () => {
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = () => {
 
-  const minutes = calculateEstimatedWait();
+  const minutes = 30; // TEST VALUE
   const waitTime = Number(minutes) * 60 * 1000;
   const pickUpTime = new Date(new Date().getTime() + waitTime).toLocaleTimeString();
 
@@ -198,7 +194,6 @@ const createOrderPlacedElement = () => {
   $('#cart_size').html(`${_cart.length}`);
   return $orderMSg;
 };
-
 
 
 //fetches the current users past orders
@@ -255,9 +250,9 @@ const quickOrderElement = lastOrder => {
 
 
 //fetches the users recently placed order by order_id.
-const fetchOrderDetails = id => {
+const fetchOrderDetails = () => {
 
-  const url = `/api/fetch_orders/${id}`;
+  const url = `/api/fetch_orders`;
 
   $.ajax({
     url: url,

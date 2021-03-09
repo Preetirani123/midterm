@@ -18,45 +18,22 @@ const scrollIntoView = () => {
   });
 }
 
-
 //sorts the users cart by item ID
 const sortObjArrayById = array => {
 
   array.sort(function(a, b){
-
   return a.id - b.id;
   });
-
   return array;
-
-  }
-
+  };
 
 //reduces the cart to one menu item for each menu_id
 const reduceObjArrayById = arr => {
 
-  const result = [];
-
-  for (let i = 0; i < arr.length; i++){
-
-    let hit = false;
-
-      for (let j = i + 1; j < arr.length; j++) {
-
-        if(arr[i].id === arr[j].id) {
-
-          hit = true;
-        }
-      }
-
-      if(!hit) {
-        result.push(arr[i]);
-      }
-  }
-
+  const flatten = new Set(arr);
+  const result = [...flatten];
   return result;
-}
-
+};
 
 // counts matching menu items in the cart
   const countCartItems = (array, value) => {
@@ -68,9 +45,8 @@ const reduceObjArrayById = arr => {
         counter++;
       }
     }
-
     return counter;
-  }
+  };
 
 // bundles all the same menu items in the cart together
   const bundleCartItems = (sorted, reduce) => {
@@ -79,8 +55,7 @@ const reduceObjArrayById = arr => {
 
       let quantity = countCartItems(sorted, item.id);
       item.qt = quantity;
-
     }
-
     return reduce;
-  }
+  };
+
