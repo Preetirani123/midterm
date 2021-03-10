@@ -10,3 +10,45 @@ footer {
 }
 
 
+.rating-star {
+  font-size: 22px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+}
+.rating-star input {
+  opacity: 0;
+  position: relative;
+  left: -17px;
+  z-index: 2;
+  cursor: pointer;
+  top: 4px;
+}
+.rating-star span.star:before {
+  color: #777777;
+}
+.rating-star span.star {
+  display: flex;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
+  z-index: 1;
+}
+.rating-star span {
+  margin-left: 0px;
+}
+.rating-star span.star:before {
+  color: #777777;
+  content:"\f006";
+}
+.rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
+  color: #ffd100;
+  content:"\f005";
+}
+
+.selected-rating{
+  color: #ffd100;
+  font-weight: bold;
+  font-size: 42px;
+}

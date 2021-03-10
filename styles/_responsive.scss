@@ -29,3 +29,16 @@
   }
 
 }
+
+@media (max-width:1400px) and (min-width:1025px) {
+  #item-container{
+    .item-menu{
+      width: 30.33%;
+    }
+  }
+
+  #order-container{
+    margin: 50px 40px;
+  }
+
+}

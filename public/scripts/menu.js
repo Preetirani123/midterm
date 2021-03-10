@@ -30,10 +30,22 @@ const createMenuElement = function (data) {
     <p class="discrib">${data.description}</p>
     <div class="cart-container">
       <p class="cost-price">Cost $${data.price}</p>
-      <div class="quantity">
-        <p class="cost-price">Rating </p>
-      </div>
     </div>
+    <div class="quantity">
+      <form id="rating-form">
+      <span class="rating-star">
+      <input type="radio" name="rating" value="5"><span class="star"></span>
+
+          <input type="radio" name="rating" value="4"><span class="star"></span>
+
+          <input type="radio" name="rating" value="3"><span class="star"></span>
+
+          <input type="radio" name="rating" value="2"><span class="star"></span>
+
+          <input type="radio" name="rating" value="1"><span class="star"></span>
+      </span>
+      </form>
+      </div>
     <div class="add-cart">
       <span id=${data.id} onclick="addToCart(this.id)" ><i class="fab fa-opencart"></i>Add to cart</span>
     </div>
@@ -64,3 +76,8 @@ const fetchMenu = () => {
     },
   });
 };
+
+// Rating -----------------
+$('#rating-form').on('change','[name="rating"]',function(){
+	$('#selected-rating').text($('[name="rating"]:checked').val());
+});
