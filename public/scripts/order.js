@@ -176,6 +176,7 @@ const checkForRestaurantResponse = order_id => {
       success: data => {
 
       const estTime = JSON.stringify(data.time.time);
+      console.log("estimated time:", estTime)
 
       if(!estTime || estTime !== 'null') {
       clearInterval(checkServer);
@@ -214,8 +215,8 @@ const receivedSMS = time => {
 
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = (time) => {
-
   const estTimeRoundedUp = Number(Math.ceil(time));
+  console.log("time:", time)
   const timeStr = constructCheckoutStr(estTimeRoundedUp);
   const waitTime = estTimeRoundedUp * 60 * 1000;
   const pickUpTime = new Date(
