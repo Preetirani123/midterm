@@ -215,7 +215,7 @@ const receivedSMS = time => {
 // updates the browser with estimated time info from SMS update;
 const createOrderPlacedElement = () => {
 
-  const estTimeRoundedUp = Number(Math.ceil(est_time));
+  const estTimeRoundedUp = Number(Math.ceil(estFTime));
   const timeStr = constructCheckoutStr(estTimeRoundedUp);
   const waitTime = estTimeRoundedUp * 60 * 1000;
   const pickUpTime = new Date(
