@@ -10,7 +10,7 @@ const concatFoodItems = require('./helperFuncs/concatFoodOrder');
 //   keys: ['key_1'],
 // }));
 
-require('dotenv').config();
+//require('dotenv').config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const phoneNumber = process.env.TWILIO_NUMBER;
