@@ -73,7 +73,7 @@ const fetchMenu = () => {
     error: (error) => {
       console.log(error.responseText);
       alert("404 ERROR");
-      return location.reload();
+      //return location.reload();
     },
   });
 };
