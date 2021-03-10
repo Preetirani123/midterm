@@ -266,10 +266,7 @@ const createOrderPlacedElement = () => {
 
 //fetches the current users past orders
 const addQuickOrderListener = () => {
-  $("#quick-order-btn").on("click", () => {
-    const id = sessionStorage.getItem("pseudoUser");
-    const url = `/api/quick_orders/${id}`;
-    _cart = [];
+
 
 
   $('#quick-order').on('click', () => {
