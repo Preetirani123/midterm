@@ -11,7 +11,7 @@
 
 
 #complete-container{
-  z-index: 3;
+  z-index: 12;
   display: none;
   position: fixed;
   top: 0;
@@ -21,9 +21,10 @@
   background-color: rgba(0, 0, 0, 0.9);
 
   section {
+    position: relative;
     display: none;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 60px;
     width: 600px;
     text-align: center;
     padding: 15px;
@@ -54,14 +55,19 @@
       color:$red-color;
     }
 
+    a{
+      text-decoration: none;
+    }
+
     h6{
       cursor: pointer;
       margin-top: -10px;
-      text-align: left;
+      text-align: right;
       color: gray;
-      text-decoration: underline;
+      font-size: 1.2rem;
+      text-decoration: none;
       &:hover{
-        color:lightgray;
+        color:lightgrey;
       }
     }
 
@@ -74,18 +80,38 @@
       }
     }
 
+    h4{
+      line-height: 1.5;
+    }
+
    h2{
      color: $red-color;
    }
 
     img{
       cursor: pointer;
-      margin-top: 30px;
+      margin-top: 10px;
+      margin-bottom: 30px;
       width: 75px;
       height: 75px;
-      padding: 10px;
+      padding: 15px;
       border-radius: 20px;
       box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
+    }
+
+    .faded-img img{
+      position: absolute;
+      display: block;
+      opacity: 0.08;
+      top: 50%;
+      left: 50%;
+      margin: -250px 0 0 -320px;
+      width: 300px;
+      height: 300px;
+      padding: none;
+      border-radius: 0px;
+      box-shadow:none;
 
     }
 
@@ -102,6 +128,8 @@
   border: 1px solid #efefef;
   box-shadow: 0px 0px 20px #ece8e8;
   border-radius: 10px;
+
+
   h1{
     color:black;
     text-align: center;
