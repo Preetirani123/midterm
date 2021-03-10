@@ -1,5 +1,5 @@
 {
-  "name": "node-skeleton",
+  "name": "snack-the-planet",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
