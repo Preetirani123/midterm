@@ -244,34 +244,44 @@
     h3{
       color:  $red-color;
       letter-spacing: 1px;;
+      padding: 0px;
     }
+.nation{
+margin-top: -25px;
+padding: 3px;
+font-weight: normal;
+font-family: cursive;
+  font-size: 3rem;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+ border-bottom-color: lightgrey;
 
     .nation{
-      cursor: pointer;
-      margin-top: -5px;
-      font-size:3rem;
-      border-bottom-style: solid;
-      border-bottom-color: lightgrey;
-      padding-bottom: 30px;
-      border-bottom-width: 1px;
-
+cursor: pointer;
+margin-top: -5px;
+font-size:3rem;
+border-bottom-style: solid;
+border-bottom-color: lightgrey;
+padding-bottom: 30px;
+border-bottom-width: 1px;
     }
+}
 
     p {
       font-size: 1rem;
-      line-height: 23px;
       overflow-wrap: break-word;
-      padding: 0rem 1rem;
       font-weight: bold;
     }
 
     .discrib {
+
       height: 80px;
       font-weight: bold;
+
     }
 
     .cost-price {
-      display: block;
+     display: block;
       margin: auto;
       margin-top: -20px;
       margin-bottom: 30px;
@@ -281,6 +291,16 @@
       font-size: 1.5rem;
       border-radius: 10px;
       box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+
+    .cart-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      input{
+        width: 54px;
+      }
+
     }
 
 

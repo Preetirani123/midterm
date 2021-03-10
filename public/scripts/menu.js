@@ -26,6 +26,7 @@ const createMenuElement = function (data) {
     <img src="${data.image_url}">
     </div>
     <h3>${data.food_item}</h3>
+
    <a href'https://en.wikipedia.org/wiki/'> <p class='nation'>${data.nation}</p></a>
     <div class="cart-container">
       <h3 class="cost-price">$${data.price}</h3>
@@ -73,7 +74,7 @@ const fetchMenu = () => {
     error: (error) => {
       console.log(error.responseText);
       alert("404 ERROR");
-      return location.reload();
+      //return location.reload();
     },
   });
 };

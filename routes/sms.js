@@ -2,7 +2,7 @@
 const express = require("express");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const router = express.Router();
-require("dotenv").config();
+//require("dotenv").config();
 const phoneNumber = process.env.TWILIO_NUMBER;
 
 module.exports = (db) => {
