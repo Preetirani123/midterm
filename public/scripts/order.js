@@ -144,7 +144,7 @@ const addPlaceOrderListener = () => {
       error: (error) => {
         console.log(error.responseText);
         alert("404 ERROR");
-        return location.reload();
+        //return location.reload();
       },
     });
   });
@@ -187,14 +187,14 @@ const checkForRestaurantResponse = order_id => {
       error: error => {
         console.log(error.responseText);
         alert("404 ERROR");
-        return location.reload();
+        //return location.reload();
       },
     });
 
     if (kill > 8) { //<--- gives the restaraunt 2 minutes to responde
 
       alert(`${brand} failed to responde to your order, please try placing it again.  Sorry for the inconvenience.`);
-      return location.reload();
+      //return location.reload();
     }
   }, 15000)
 
@@ -291,7 +291,7 @@ const addQuickOrderListener = () => {
   _cart = [];
 
   if(!id){
-    return alert('Order History Not Found');
+    //return alert('Order History Not Found');
   }
 
     $.ajax({
@@ -312,7 +312,7 @@ const addQuickOrderListener = () => {
 const quickOrderElement = lastOrder => {
 
   if(!lastOrder){
-    return alert('You must have at least one previous order with us to utilize quick order.');
+    //return alert('You must have at least one previous order with us to utilize quick order.');
   }
 
   for (const past_item of lastOrder.food) {
@@ -348,7 +348,7 @@ const fetchOrderDetails = () => {
     error: (error) => {
       console.log(error.responseText);
       alert("404 ERROR");
-      return location.reload();
+      //return location.reload();
     },
   });
 };
