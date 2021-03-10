@@ -75,9 +75,16 @@ const headToCheckout = () => {
     totalPrice += Number(item.price * item.qt);
   }
 
+  let tax = totalPrice * 0.05;
+
+  let total = totalPrice + tax;
+
+
   $orderDetails = `
     <div class='order-footer'>
-    <h2>Order Total: $${totalPrice}</h2>
+    <h4>Sub Total: $${totalPrice}</h4>
+    <h5>Tax: $${tax}</h5>
+    <h2>Total: $${total}</h2>
     <button id='place_order'>Place Order</button>
     </div>
     `;
