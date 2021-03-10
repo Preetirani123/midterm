@@ -1,5 +1,5 @@
 LHL Node Skeleton
-=========
+Snack the planet is food ordering application. In this aap we used the Twilio to connect user to the restraurant. when user place the order then restraurat will receive user's order then resraurat will send the notification for estimate time and at the same time browser will also update the food delivere process activity
 
 ## Project Setup
 
@@ -41,3 +41,15 @@ The following steps are only for _one_ of the group members to perform.
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+- Body-parser
+- Twilio
+- Sass
+- Ejs
+- Express
+- Morgan
+
+## Feature Add-on
+
+- Payment processing
+- Login/Registration
+- Ability to reject order by restaurant
