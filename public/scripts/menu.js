@@ -26,10 +26,11 @@ const createMenuElement = function (data) {
     <img src="${data.image_url}">
     </div>
     <h3>${data.food_item}</h3>
-    <p>${data.nation}</p>
+    <p class=nation>${data.nation}</p>
+    <h3 class="cost-price">$${data.price}</h3>
     <p class="discrib">${data.description}</p>
     <div class="cart-container">
-      <p class="cost-price">Cost $${data.price}</p>
+
     </div>
     <div class="quantity">
       <form id="rating-form">

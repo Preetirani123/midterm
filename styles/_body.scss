@@ -244,24 +244,44 @@
     h3{
       color:  $red-color;
       letter-spacing: 1px;;
+      padding: 0px;
     }
+.nation{
+margin-top: -25px;
+padding: 3px;
+font-weight: normal;
+font-family: cursive;
+  font-size: 3rem;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+ border-bottom-color: lightgrey;
 
+}
     p {
       font-size: 1rem;
-      line-height: 23px;
       overflow-wrap: break-word;
-      padding: 0rem 1rem;
       font-weight: bold;
     }
 
     .discrib {
-      height: 40px;
+      padding: 20px;
+      height: 80px;
+
     }
 
     .cost-price {
+      display: block;
+      margin: auto;
+      margin-top: -15px;
       text-transform: uppercase;
       color: $red-color;
       font-weight: 700;
+      font-size: 2rem;
+      border-radius: 20px;
+      width:100px;
+      padding: 10px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
   }
 
     .cart-container {
