@@ -12,6 +12,7 @@ const morgan     = require('morgan');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
+
 //const dbParams = require('./lib/db.js');
 //const dbParams = require(process.env.DATABASE_URL)
 const connectionString = process.env.DATABASE_URL
@@ -23,7 +24,6 @@ const db = new Pool({
 })
 //const db = new Pool(dbParams);
 // db.connect();
-
 
 db.connect(() => {
   console.log('connected to database');

@@ -188,7 +188,7 @@ const checkForRestaurantResponse = order_id => {
       error: error => {
         console.log(error.responseText);
         alert("404 ERROR");
-        //return location.reload();
+
       },
     });
 
@@ -204,6 +204,8 @@ const checkForRestaurantResponse = order_id => {
 //SMS received from restaurant
 const receivedSMS = time => {
 
+  console.log('1: ',typeof time);
+  time = Number(time);
   $(".inner-complete-container").fadeOut('slow');
   $("#complete-container").append(createOrderPlacedElement(time));
 
@@ -214,9 +216,11 @@ const receivedSMS = time => {
 
 
 // updates the browser with estimated time info from SMS update;
-const createOrderPlacedElement = (time) => {
+
+const createOrderPlacedElement = time => {
+  console.log('2: ',typeof time);
+
   const estTimeRoundedUp = Number(Math.ceil(time));
-  console.log("time:", time)
   const timeStr = constructCheckoutStr(estTimeRoundedUp);
   const waitTime = estTimeRoundedUp * 60 * 1000;
   const pickUpTime = new Date(
