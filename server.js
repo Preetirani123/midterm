@@ -12,7 +12,8 @@ const morgan     = require('morgan');
 
 // PG database client/connection setup
 const { Pool } = require('pg');
-const dbParams = require('./lib/db.js');
+//const dbParams = require('./lib/db.js');
+const dbParams = require(process.env.DATABASE_URL)
 const db = new Pool(dbParams);
 // db.connect();
 
@@ -26,7 +27,6 @@ db.connect(() => {
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
-
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
@@ -45,11 +45,8 @@ const menuRoutes = require("./routes/menu");
 const place_ordersRoute = require("./routes/place_orders");
 const quick_ordersRoute = require("./routes/quick_orders");
 const fetch_ordersRoute = require("./routes/fetch_orders");
-
 const smsRoute = require("./routes/sms");
-
 const estTimeListener = require("./routes/est_time_listener");
-
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -58,9 +55,7 @@ app.use("/api/menu", menuRoutes(db));
 app.use("/api/place_orders", place_ordersRoute(db));
 app.use("/api/quick_orders", quick_ordersRoute(db));
 app.use("/api/fetch_orders", fetch_ordersRoute(db));
-
 app.use("/sms", smsRoute(db));
-
 app.use("/api/est_time_listener", estTimeListener(db));
 
 
