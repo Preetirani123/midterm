@@ -7,6 +7,7 @@ const phoneNumber = process.env.TWILIO_NUMBER;
 
 module.exports = (db) => {
   router.post("/", (req, res) => {
+    console.log("Trying to call this function");
     const twiml = new MessagingResponse();
     const textBody = req.body.Body;
     const textSplit = textBody.split(" ")
@@ -25,6 +26,6 @@ module.exports = (db) => {
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
   });
-  console.log("router:", router);
+  // console.log("router:", router);
   return router;
 };

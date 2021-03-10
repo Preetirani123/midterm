@@ -1,7 +1,3 @@
-//GLOBAL VARS
-let _menu = [];
-let _cart = [];
-
 //adds order item to cart
 const addToCart = (menu_id) => {
   for (const item of _menu) {
@@ -15,7 +11,6 @@ const addToCart = (menu_id) => {
       return $("#cart_size").html(`${_cart.length}`);
     }
   }
-
 };
 
 //adds a listener event to the headToCheckout function
@@ -27,8 +22,6 @@ const addHeadToCheckoutListener = () => {
 
 //builds the checkout html element
 const headToCheckout = () => {
-
-
   if(!_cart || _cart.length < 1) {
     $('#added_to_cart').html(`You have no items in your cart`);
     $('#added_to_cart').fadeIn('slow');
@@ -43,7 +36,6 @@ const headToCheckout = () => {
   $('#order-container').css('display', 'none');
   $('#order-container').html('');
 
-
   const orderElements = [];
   let totalPrice = 0;
   $orderDetails = `
@@ -53,7 +45,6 @@ const headToCheckout = () => {
   `;
   orderElements.push($orderDetails);
 
-
   //bundles the same menu items together for the UI update
   const sorted = sortObjArrayById(_cart);
   const reduce = reduceObjArrayById(sorted);
@@ -61,7 +52,6 @@ const headToCheckout = () => {
   //---------------
 
   for (const item of reduce) {
-
 
     let $orderDetails = `
     <section>
@@ -85,7 +75,6 @@ const headToCheckout = () => {
   return renderCheckoutPage(orderElements);
 };
 
-
 //takes the array of html elements as an args and renders the users checkout details
 const renderCheckoutPage = (order) => {
   $("#item-container").css("display", "none");
@@ -95,7 +84,7 @@ const renderCheckoutPage = (order) => {
     $("#order-container").append(item);
   }
   scrollIntoView();
-  addPlaceOrderListener(); //set after order-container is rendered
+  addPlaceOrderListener(); //<--- set after order-container is rendered
 };
 
 //removes an item from the users cart and re-renders the order-container
@@ -117,7 +106,6 @@ const removeFromCart = (menu_id) => {
 //allows the current user to place an order
 const addPlaceOrderListener = () => {
 
-
   $('#place_order').on('click', () => {
 
     const currentUser = {
@@ -133,7 +121,6 @@ const addPlaceOrderListener = () => {
       menu_items: menu_ids,
     }
 
-
     $.ajax({
       url: "/api/place_orders",
       type: "POST",
@@ -144,20 +131,30 @@ const addPlaceOrderListener = () => {
         $("#complete-container").fadeIn("slow");
         $(".inner-complete-container").slideDown("slow");
 
-
         //setInterval waiting on restaraunt response
         checkForRestaurantResponse(data);
-
-
       },
       error: (error) => {
         console.log(error.responseText);
+        alert("404 ERROR");
+        return location.reload();
       },
     });
   });
 };
 
-//checks the database for rest. est. time response
+//creates a spinner animation while the SMS functionality is being handled
+const processingOrderAnimation = () => {
+  const $processing = `<section class='inner-complete-container'>
+  <h2>Order Received</h2>
+  <h4>${brand} is calculating<br>your wait time...</h4>
+  <div class="sending"></div>
+  </section>`;
+
+  return $processing;
+};
+
+//checks the database for restaraunt est. time response
 const checkForRestaurantResponse = order_id => {
   let kill = 0;
 
@@ -171,100 +168,113 @@ const checkForRestaurantResponse = order_id => {
 
       success: data => {
 
-      const timeStr = JSON.stringify(data.time.time);
+      const estTime = JSON.stringify(data.time.time);
 
-      if(!timeStr || timeStr !== 'null') {
+      if(!estTime || estTime !== 'null') {
       clearInterval(checkServer);
-      receivedSMS(timeStr);
-      console.log(`SUCCESS => Est. wait time is ${timeStr} minutes.`);
+      receivedSMS(estTime);
       } else {
-      console.log('Est time = NULL => Recall chx server func');
+      console.log('EST TIME is NULL -> Re-check DB');
       }
       },
       error: error => {
         console.log(error.responseText);
-        console.log('KILL => Responded with error.')
+        alert("404 ERROR");
+        return location.reload();
       },
     });
 
-    if (kill > 20) {
-      clearInterval(checkServer);
-      console.log('KILL => server timed out.')
-    }
+    if (kill > 8) { //<--- gives the restaraunt 2 minutes to responde
 
-  }, 5000)// checks the server every 5 seconds
+      alert(`${brand} failed to responde to your order, please try placing it again.  Sorry for the inconvenience.`);
+      return location.reload();
+    }
+  }, 15000)
 
 };
 
 //SMS received from restaurant
 const receivedSMS = time => {
 
-  console.log(`Call Status bar func with => ${time}`) //<------ CALL STATUS BAR FUNCTION HERE
-
   $(".inner-complete-container").fadeOut('slow');
-  $("#complete-container").append(createOrderPlacedElement);
+  $("#complete-container").append(createOrderPlacedElement(time));
 
   setTimeout(function(){
     $(".final-complete-container").fadeIn('slow');
   },1000);
 }
 
-
-//creates a spinner animation while the SMS functionality is being handled
-const processingOrderAnimation = () => {
-  const $processing = `<section class='inner-complete-container'>
-  <h2>Order Received</h2>
-  <h4>Calculating estimated wait time...</h4>
-  <div class="sending"></div>
-  </section>`;
-
-  return $processing;
-};
-
 // updates the browser with estimated time info from SMS update;
-const createOrderPlacedElement = () => {
+const createOrderPlacedElement = est_time => {
 
-  const minutes = 30; // TEST VALUE
-
-  const waitTime = Number(minutes) * 60 * 1000;
+  const estTimeRoundedUp = Number(Math.ceil(est_time));
+  const timeStr = constructCheckoutStr(estTimeRoundedUp);
+  const waitTime = estTimeRoundedUp * 60 * 1000;
   const pickUpTime = new Date(
-    new Date().getTime() + waitTime
-  ).toLocaleTimeString();
+  new Date().getTime() + waitTime).toLocaleTimeString();
 
   const $orderMSg = `<section class='final-complete-container'>
-  <div style='width:50px'><a href='/'><h6>menu<h6></a></div>
-
-
-<div id="myProgress">
-  <div id="myBar"> </div>
-</div>
-<br>
-<button onclick="move()">Click Me</button>
-
-<h4>
+  <a href='/'><h6>X</h6></a>
+  <h4 id='chxTitle'>
   Your order will be ready in
   </h4>
+  <div class='chxBody'>
   <p>
-  ${minutes} minutes
+  ${timeStr}
   </p>
   <h4>
-  Pick-Up Time
+  Pick up time
   </h4>
   <p>
   ${pickUpTime}
   <p>
-  <a href='https://www.google.com/maps2/dir/?api=1&origin=&destination=Stanley+Park+Vancouver+BC&travelmode=bicycling' target='_blank'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2aQejmdcLqj9jgx9LMaOwaAM0YDZpAkMohg&usqp=CAU'/></a>
+  </div>
+
+  <div id="myProgress">
+    <div id="myBar"> </div>
+  </div>
+
+  <a href='https://www.google.com/maps/dir/?api=1&origin=&destination=Vancouver+BC&travelmode=bicycling' target='_blank'><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2aQejmdcLqj9jgx9LMaOwaAM0YDZpAkMohg&usqp=CAU'/></a>
+  <div class='faded-img'>
+  <img src='/image/logo.png'/>
+  </div>
   </section>`;
 
   _cart = [];
   $("#cart_size").html(`${_cart.length}`);
+  move(estTimeRoundedUp); // <---- starts the progress bar
   return $orderMSg;
 };
 
 
+  // Set time out for order process bar
+  function move(time) {
+
+    const milliseconds = time * 60;
+    const rateOfChange = 100 / milliseconds;
+    const interval = 1000;
+    let width = 0;
+    let i = 0;
+
+    let id = setInterval(frame, interval);
+
+    function frame() {
+
+      width = width + rateOfChange;
+      $("#myBar").css('width', width + "%");
+      i++;
+
+      if (width > 100 || i >= milliseconds) {
+        width = 100;
+        orderReadyAnimation();
+        clearInterval(id);
+      }
+    }
+  }
+
+
 //fetches the current users past orders
 const addQuickOrderListener = () => {
-
 
   $('#quick-order').on('click', () => {
 
@@ -275,7 +285,6 @@ const addQuickOrderListener = () => {
   if(!id){
     return alert('Order History Not Found');
   }
-
 
     $.ajax({
       url: url,
@@ -298,10 +307,8 @@ const quickOrderElement = lastOrder => {
     return alert('You must have at least one previous order with us to utilize quick order.');
   }
 
-
   for (const past_item of lastOrder.food) {
     for (const menu_item of _menu) {
-
 
         if (Number(past_item) === Number(menu_item.id)){
 
@@ -316,15 +323,10 @@ const quickOrderElement = lastOrder => {
 };
 
 
-
-
-
-
 //fetches all order history
 const fetchOrderDetails = () => {
 
   const url = `/api/fetch_orders`;
-
 
   $.ajax({
     url: url,
@@ -333,45 +335,14 @@ const fetchOrderDetails = () => {
     success: data => {
       console.log('Total orders in DB: ',data);
 
-
     },
     error: (error) => {
       console.log(error.responseText);
+      alert("404 ERROR");
+      return location.reload();
     },
   });
 };
-
-
-// Set time out for order process bar
-
-function move() {
-  let message = ['Preparing', 'Ready-for-delivered', 'Completed'];
-  let interval = [10, 20, 30]
-  let elem = document.getElementById("myBar");
-
-  let width = 100;
-  let i = 0;
-
-  let id = setInterval(frame, 200);
-
-  function frame() {
-
-    width = width - 1;
-    elem.style.width = width + "%";
-    elem.textContent = message[i];
-    if (width == 0 && i < 3) {
-      width = 100;
-      i++;
-    }
-    if (i == 3) {
-      clearInterval(id);
-    }
-  }
-}
-
-
-
-
 
 
 

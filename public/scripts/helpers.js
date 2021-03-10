@@ -59,3 +59,27 @@ const reduceObjArrayById = arr => {
     return reduce;
   };
 
+  //checks the estimated time of an order and constructs a checkout string
+  const constructCheckoutStr = value => {
+
+    let text = '';
+    value = Math.round(value);
+
+    if (value <= 1) {
+      value = 1;
+      text =`${value} minute`
+    } else {
+      text =`${value} minutes`
+    }
+    return text;
+  }
+
+
+//order is ready animation
+const orderReadyAnimation = () => {
+  $(".faded-img").css('display', 'none');
+  $("#chxTitle").html('Your order is ready<br>for pick up');
+  $("#chxTitle").css('font-size', '2.2rem');
+  $(".chxBody").slideUp('slow');
+  $("#myBar").addClass('blink')
+}
