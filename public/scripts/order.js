@@ -165,6 +165,7 @@ const processingOrderAnimation = () => {
 const checkForRestaurantResponse = order_id => {
   let kill = 0;
 
+  // return receivedSMS('1');
   const checkServer = setInterval(function(){
 
     kill++;
@@ -175,12 +176,14 @@ const checkForRestaurantResponse = order_id => {
 
       success: data => {
 
-      const estTime = JSON.stringify(data.time.time);
-      console.log("estimated time:", estTime)
+      const num = data.time.time;
+      let estTime = Number(num);
 
-      if(!estTime || estTime !== 'null') {
+      if(!Number.isNaN(estTime) && estTime > 0) {
+
       clearInterval(checkServer);
       receivedSMS(estTime);
+
       } else {
       console.log('EST TIME is NULL -> Re-check DB');
       }
@@ -192,22 +195,20 @@ const checkForRestaurantResponse = order_id => {
       },
     });
 
-    if (kill > 8) { //<--- gives the restaraunt 2 minutes to responde
+    if (kill > 4) { //<--- gives the restaraunt 1 minute to responde
 
-      alert(`${brand} failed to responde to your order, please try placing it again.  Sorry for the inconvenience.`);
-      //return location.reload();
+      estTime = 30;// <---default wait time MVD!
+      receivedSMS(estTime);
     }
   }, 15000)
 
 };
 
 //SMS received from restaurant
-const receivedSMS = time => {
+const receivedSMS = estTime => {
 
-  console.log('1: ',typeof time);
-  time = Number(time);
   $(".inner-complete-container").fadeOut('slow');
-  $("#complete-container").append(createOrderPlacedElement(time));
+  $("#complete-container").append(createOrderPlacedElement(estTime));
 
   setTimeout(function(){
     $(".final-complete-container").fadeIn('slow');
@@ -216,13 +217,11 @@ const receivedSMS = time => {
 
 
 // updates the browser with estimated time info from SMS update;
+const createOrderPlacedElement = estTime => {
 
-const createOrderPlacedElement = time => {
-  console.log('2: ',typeof time);
-
-  const estTimeRoundedUp = Number(Math.ceil(time));
+  const estTimeRoundedUp = Math.ceil(estTime);
   const timeStr = constructCheckoutStr(estTimeRoundedUp);
-  const waitTime = estTimeRoundedUp * 60 * 1000;
+  const waitTime = estTime * 60 * 1000;
   const pickUpTime = new Date(
   new Date().getTime() + waitTime).toLocaleTimeString();
 
@@ -255,7 +254,7 @@ const createOrderPlacedElement = time => {
 
   _cart = [];
   $("#cart_size").html(`${_cart.length}`);
-  move(estTimeRoundedUp); // <---- starts the progress bar
+  move(estTime); // <---- starts the progress bar
   return $orderMSg;
 };
 
