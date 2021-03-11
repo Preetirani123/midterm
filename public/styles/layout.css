@@ -87,7 +87,7 @@ nav .fas-right:hover {
 }
 
 #added_to_cart {
-  z-index: 2;
+  z-index: 100;
   display: none;
   position: fixed;
   top: 20px;
@@ -155,7 +155,7 @@ header a:hover {
 
 #quick-order {
   cursor: pointer;
-  z-index: 3;
+  z-index: 14;
   position: fixed;
   display: flex;
   justify-content: center;
@@ -425,53 +425,43 @@ header a:hover {
 #item-container .item-menu h3 {
   color: #da3c3c;
   letter-spacing: 1px;
-  padding: 0px;
 }
 
 #item-container .item-menu .nation {
-  margin-top: -25px;
-  padding: 3px;
-  font-weight: normal;
-  font-family: cursive;
+  cursor: pointer;
+  margin-top: -5px;
   font-size: 3rem;
   border-bottom-style: solid;
-  border-bottom-width: 1px;
   border-bottom-color: lightgrey;
+  padding-bottom: 30px;
+  border-bottom-width: 1px;
 }
 
 #item-container .item-menu p {
   font-size: 1rem;
+  line-height: 23px;
   overflow-wrap: break-word;
+  padding: 0rem 1rem;
   font-weight: bold;
 }
 
 #item-container .item-menu .discrib {
-  padding: 20px;
   height: 80px;
+  font-weight: bold;
+  padding: 0rem 0.5rem;
 }
 
 #item-container .item-menu .cost-price {
   display: block;
   margin: auto;
-  margin-top: -15px;
-  text-transform: uppercase;
-  color: #da3c3c;
-  font-weight: 700;
-  font-size: 2rem;
-  border-radius: 20px;
+  margin-top: -20px;
+  margin-bottom: 30px;
   width: 100px;
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-#item-container .item-menu .cart-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-#item-container .item-menu .cart-container input {
-  width: 54px;
+  color: #da3c3c;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 #item-container .item-menu .add-cart {
