@@ -1,4 +1,3 @@
--- Menu table seeds here (Example)
 INSERT INTO menu (nation, food_item, description, price, image_url)
 VALUES ('🇮🇹','Pizza', 'A savoury dish consisting of round dough topped with tomatoes and cheese', 15, 'image/pizza.jpg'),
 ('🇺🇸','Burger', 'Our house special burger is out of this world!', 12, 'image/burger.jpg'),

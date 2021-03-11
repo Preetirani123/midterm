@@ -1,18 +1,18 @@
-//const http = require('http');
 const express = require("express");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const router = express.Router();
-//require("dotenv").config();
 const phoneNumber = process.env.TWILIO_NUMBER;
+
+// Twilio route for forwarding time estimates to customer
 
 module.exports = (db) => {
   router.post("/", (req, res) => {
     console.log("Trying to call this function");
     const twiml = new MessagingResponse();
     const textBody = req.body.Body;
-    const textSplit = textBody.split(" ")
-    const timeEstimate = textSplit[0].toString()
-    const orderNumber = textSplit[1].toString()
+    const textSplit = textBody.split(" ");
+    const timeEstimate = textSplit[0].toString();
+    const orderNumber = textSplit[1].toString();
 
     db.query(
       `UPDATE orders
@@ -26,6 +26,6 @@ module.exports = (db) => {
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
   });
-  // console.log("router:", router);
+
   return router;
 };
