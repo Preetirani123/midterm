@@ -28,7 +28,7 @@ nav {
   width: 20%;
   padding: 10px;
   background: #111111;
-  color: white;
+  color: $white-color;
   font-size: 17px;
   border: 1px solid #000000;
   border-left: none;
@@ -38,7 +38,7 @@ nav {
   }
   span{
     .fas{
-      color: #ffffff;
+      color: $white-color;
     }
 
   }
@@ -46,7 +46,7 @@ nav {
   .fas-right{
     cursor: pointer;
     align-items: center;
-    color: #ffffff;
+    color: $white-color;
     text-align: right;
     #cart_size{
       margin: 0px;
@@ -70,7 +70,7 @@ nav {
   font-size:1.1rem;
   font-weight: bold;
   color: $red-color;
-  background-color: white;
+  background-color: $white-color;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 

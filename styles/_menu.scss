@@ -53,7 +53,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-
   top: 122px;
   right: 7px;
   padding: 7px;
@@ -67,8 +66,7 @@ header {
   color: $red-color;
   font-size: 1rem;
   &:hover{
-    border-color: red;
-    color: red;
-
+    border-color: $red-color;
+    color: $red-color;
   }
-  }
+}

@@ -3,7 +3,7 @@ footer {
   padding: 0.2rem 1rem;
   text-align: center;
   p{
-    color: #ffffff;
+    color: $white-color;
     font-size: 1rem;
     letter-spacing: 1px;
   }
@@ -43,12 +43,12 @@ footer {
   content:"\f006";
 }
 .rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
-  color: #ffd100;
+  color: $yellow-color;
   content:"\f005";
 }
 
 .selected-rating{
-  color: #ffd100;
+  color: $yellow-color;
   font-weight: bold;
   font-size: 42px;
 }
