@@ -190,10 +190,11 @@ const checkForRestaurantResponse = order_id => {
 
     if (kill > 4) { //<--- gives the restaraunt 1 minute to responde
 
-      estTime = 30;// <---fallback to default est. time MVD!
+      estTime = 1;// <---fallback to default est. time MVD!
       receivedSMS(estTime);
+      updateOrderStatus(order_id); //<-- as an intermediary our job is done.
     }
-  }, 15000)
+  }, 15000) //<--- checks server every 15 seconds.
 
 };
 

@@ -60,7 +60,6 @@ const reduceObjArrayById = arr => {
   const constructCheckoutStr = value => {
 
     let text = '';
-    value = Math.ceil(value);
 
     if (value <= 1) {
       value = 1;
