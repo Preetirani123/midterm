@@ -1,7 +1,5 @@
 Snack the Planet is a full stack food ordering web application for a trendy new ficticious restaurant. Customers can visit the site, order items, and their order will be sent to the restaurant via SMS. The restaurant returns a wait time for the customer via SMS which is also displayed on the UI. When the wait time elapses, the customer is notified via the UI. 
 
-
-
 ## Features
 
 - Users can view Snack the Planet's menu
@@ -15,10 +13,9 @@ Snack the Planet is a full stack food ordering web application for a trendy new 
 
 ## Getting Started
 
-You can visit Snack the Planet at our url http://snack-the-planet.herokuapp.com/
+[You can visit Snack the Planet at our website](http://snack-the-planet.herokuapp.com/)
 
 For localhost set up, we recommend:
-
 
 1. Create an .env file with your correct local information (including your Twilio account info)
 2. Install dependencies: `npm i`
@@ -32,7 +29,6 @@ For localhost set up, we recommend:
 ## Warning
 
 - This project was completed using a trial version of Twilio. As such only approved phone numbers can send and receive texts from the live version of our restaurant app.
-
 
 ## Dependencies
 
