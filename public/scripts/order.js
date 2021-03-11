@@ -197,7 +197,7 @@ const checkForRestaurantResponse = order_id => {
 
     if (kill > 4) { //<--- gives the restaraunt 1 minute to responde
 
-      estTime = 30;// <---default wait time MVD!
+      estTime = 30;// <---fallback to default est. time MVD!
       receivedSMS(estTime);
     }
   }, 15000)

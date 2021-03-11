@@ -12,11 +12,8 @@ module.exports = (db) => {
         const menu = data.rows;
         res.json({ menu });
 
-
-
       })
       .catch(err => {
-        console.error(err)
         res
           .status(500)
           .json({ error: err.message });
