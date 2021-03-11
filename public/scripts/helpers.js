@@ -9,9 +9,7 @@ const scrollIntoView = () => {
    }, 1000);
 
    $(window).scroll( () => {
-
     let scroll = $(window).scrollTop();
-
     if (scroll < 1) {
       $('.anchor').slideUp('slow');
     }
@@ -29,7 +27,6 @@ const sortObjArrayById = array => {
 
 //reduces the cart to one menu item for each menu_id
 const reduceObjArrayById = arr => {
-
   const flatten = new Set(arr);
   const result = [...flatten];
   return result;
@@ -74,7 +71,6 @@ const reduceObjArrayById = arr => {
     return text;
   }
 
-
 //order is ready animation
 const orderReadyAnimation = () => {
   $(".faded-img").css('display', 'none');
@@ -83,3 +79,5 @@ const orderReadyAnimation = () => {
   $(".chxBody").slideUp('slow');
   $("#myBar").addClass('blink')
 }
+
+

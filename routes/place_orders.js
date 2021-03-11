@@ -36,8 +36,6 @@ module.exports = (db) => {
         req.session = order_id;
         res.json(order_id);
 
-
-
         // text message to restaraunt
         client.messages
         .create({
@@ -47,8 +45,6 @@ module.exports = (db) => {
            to: kitchenNumber,
          })
         .then(message => console.log(message.sid));
-
-
 
 
       })

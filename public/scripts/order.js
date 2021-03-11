@@ -66,9 +66,7 @@ const headToCheckout = () => {
   }
 
   let tax = totalPrice * 0.05;
-
   let total = totalPrice + tax;
-
 
   $orderDetails = `
     <div class='order-footer'>
@@ -144,7 +142,6 @@ const addPlaceOrderListener = () => {
       error: (error) => {
         console.log(error.responseText);
         alert("404 ERROR");
-        //return location.reload();
       },
     });
   });
@@ -157,7 +154,6 @@ const processingOrderAnimation = () => {
   <h4>${brand} is calculating<br>your wait time...</h4>
   <div class="sending"></div>
   </section>`;
-
   return $processing;
 };
 
@@ -185,7 +181,7 @@ const checkForRestaurantResponse = order_id => {
       receivedSMS(estTime);
 
       } else {
-      console.log('EST TIME is NULL -> Re-check DB');
+      console.log('Processing Order...');
       }
       },
       error: error => {
@@ -267,7 +263,6 @@ const createOrderPlacedElement = estTime => {
     const rateOfChange = 100 / milliseconds;
     const interval = 1000;
     let width = 0;
-    let i = 0;
 
     let id = setInterval(frame, interval);
 
@@ -275,9 +270,9 @@ const createOrderPlacedElement = estTime => {
 
       width = width + rateOfChange;
       $("#myBar").css('width', width + "%");
-      i++;
 
-      if (width > 100 || i >= milliseconds) {
+
+      if (width > 100) {
         width = 100;
         orderReadyAnimation();
         clearInterval(id);
@@ -295,7 +290,7 @@ const addQuickOrderListener = () => {
   _cart = [];
 
   if(!id){
-    //return alert('Order History Not Found');
+    return alert('Order History Not Found');
   }
 
     $.ajax({
@@ -303,6 +298,9 @@ const addQuickOrderListener = () => {
       type: "GET",
 
       success: (data) => {
+       if (!data.order) {
+          return alert('Order History Not Found');
+       }
         quickOrderElement(data.orders);
       },
       error: (error) => {

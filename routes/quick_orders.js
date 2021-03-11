@@ -6,8 +6,7 @@ module.exports = (db) => {
 
     let values = [req.params.userId];
 
-    db.query(`
-    SELECT food_items_by_id as food
+    db.query(`SELECT food_items_by_id as food
     FROM orders
     JOIN users
     ON users.id = orders.user_id
@@ -15,7 +14,7 @@ module.exports = (db) => {
     ORDER BY orders.id DESC
     LIMIT 1;`, values)
       .then(data => {
-        const orders = data.rows[0];
+        const orders = data.rows;
         res.json({ orders });
 
       })
