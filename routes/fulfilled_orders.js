@@ -2,18 +2,18 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) => {
+  router.post("/", (req, res) => {
+
+   const values = [req.body.orderId];
 
     db.query(`
-    SELECT orders.id, food_items_by_id as food
-    FROM orders;`)
+    UPDATE orders
+    SET order_fulfilled = true
+    WHERE orders.id = $1
+    RETURNING orders.id, order_fulfilled;`,values)
       .then(data => {
-        const orders = data.rows;
-        res.send({
-        history: data.rows,
-
-        });
-
+        res.send(
+          data.rows[0]);
       })
       .catch(err => {
         res

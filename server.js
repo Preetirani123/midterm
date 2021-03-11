@@ -51,7 +51,7 @@ const usersRoutes = require("./routes/users");
 const menuRoutes = require("./routes/menu");
 const place_ordersRoute = require("./routes/place_orders");
 const quick_ordersRoute = require("./routes/quick_orders");
-const fetch_ordersRoute = require("./routes/fetch_orders");
+const fulfilled_ordersRoute = require("./routes/fulfilled_orders");
 const smsRoute = require("./routes/sms");
 const estTimeListener = require("./routes/est_time_listener");
 
@@ -61,7 +61,7 @@ app.use("/api/users", usersRoutes(db));
 app.use("/api/menu", menuRoutes(db));
 app.use("/api/place_orders", place_ordersRoute(db));
 app.use("/api/quick_orders", quick_ordersRoute(db));
-app.use("/api/fetch_orders", fetch_ordersRoute(db));
+app.use("/api/fulfilled_orders", fulfilled_ordersRoute(db));
 app.use("/sms", smsRoute(db));
 app.use("/api/est_time_listener", estTimeListener(db));
 

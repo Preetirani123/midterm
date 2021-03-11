@@ -160,18 +160,14 @@ const processingOrderAnimation = () => {
 //checks the database for restaraunt est. time response
 const checkForRestaurantResponse = order_id => {
   let kill = 0;
-
-  // return receivedSMS('1');
   const checkServer = setInterval(function(){
-
-    kill++;
+  kill++;
 
     $.ajax({
       url: `/api/est_time_listener/${order_id}`,
       type: 'GET',
 
       success: data => {
-
       const num = data.time.time;
       let estTime = Number(num);
 
@@ -179,6 +175,7 @@ const checkForRestaurantResponse = order_id => {
 
       clearInterval(checkServer);
       receivedSMS(estTime);
+      updateOrderStatus(order_id); //<-- as an intermediary our job is done.
 
       } else {
       console.log('Processing Order...');
@@ -201,7 +198,7 @@ const checkForRestaurantResponse = order_id => {
 };
 
 //SMS received from restaurant
-const receivedSMS = estTime => {
+const receivedSMS = (estTime) => {
 
   $(".inner-complete-container").fadeOut('slow');
   $("#complete-container").append(createOrderPlacedElement(estTime));
@@ -254,8 +251,6 @@ const createOrderPlacedElement = estTime => {
   return $orderMSg;
 };
 
-
-
   // Set time out for order process bar
   function move(time) {
 
@@ -280,6 +275,28 @@ const createOrderPlacedElement = estTime => {
     }
   }
 
+//updates orders fulfilled row in DB
+const updateOrderStatus = (order) => {
+
+  const orderUp = {
+    orderId: order
+  }
+
+  $.ajax({
+      url: "/api/fulfilled_orders",
+      type: "POST",
+      data: orderUp,
+
+    success: data => {
+      console.log(data);
+    },
+    error: (error) => {
+      console.log(error.responseText);
+      // alert("404 ERROR");
+    },
+  });
+};
+
 //fetches the current users past orders
 const addQuickOrderListener = () => {
 
@@ -298,7 +315,7 @@ const addQuickOrderListener = () => {
       type: "GET",
 
       success: (data) => {
-       if (!data.order) {
+       if (!data.orders) {
           return alert('Order History Not Found');
        }
         quickOrderElement(data.orders);
@@ -313,62 +330,18 @@ const addQuickOrderListener = () => {
 //display the users past orders
 const quickOrderElement = lastOrder => {
 
-  if(!lastOrder){
-    //return alert('You must have at least one previous order with us to utilize quick order.');
+  if(!lastOrder || lastOrder[0].food.length < 1){
+    return alert('Order History Not Found');
   }
 
-  for (const past_item of lastOrder.food) {
+  for (const item of lastOrder[0].food) {
     for (const menu_item of _menu) {
-
-        if (Number(past_item) === Number(menu_item.id)){
-
+        if (Number(item) === Number(menu_item.id)){
           _cart.push(menu_item);
         }
     }
   }
   $('#cart_size').html(`${_cart.length}`);
   $('#quick-order').fadeOut('slow');
-
   return headToCheckout();
 };
-
-
-//fetches all order history
-const fetchOrderDetails = () => {
-
-  const url = `/api/fetch_orders`;
-
-  $.ajax({
-    url: url,
-    type: "GET",
-
-
-    success: data => {
-      console.log('Total orders in DB: ',data);
-
-    },
-    error: (error) => {
-      console.log(error.responseText);
-      alert("404 ERROR");
-      //return location.reload();
-    },
-  });
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
