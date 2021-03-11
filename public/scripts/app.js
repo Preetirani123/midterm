@@ -4,6 +4,7 @@ $(document).ready(() => {
   addMenuClickedListener();
   addHeadToCheckoutListener();
   fetchOrderDetails();
+  triggerSplashAnimation();
   $(() => {
     $.ajax({
       method: "GET",

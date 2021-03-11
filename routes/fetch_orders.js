@@ -9,7 +9,6 @@ module.exports = (db) => {
     FROM orders;`)
       .then(data => {
         const orders = data.rows;
-
         res.send({
         total: orders.length
         });
