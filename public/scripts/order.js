@@ -293,7 +293,6 @@ const updateOrderStatus = (order) => {
     },
     error: (error) => {
       console.log(error.responseText);
-      // alert("404 ERROR");
     },
   });
 };
