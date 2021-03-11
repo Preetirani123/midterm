@@ -3,15 +3,16 @@ const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(
-      `
-    SELECT food_items_by_id as food
-    FROM orders;`
-    )
-      .then((data) => {
+
+
+    db.query(`
+    SELECT orders.id, food_items_by_id as food
+    FROM orders;`)
+      .then(data => {
         const orders = data.rows;
         res.send({
-          total: orders.length,
+        history: data.rows,
+
         });
       })
       .catch((err) => {
