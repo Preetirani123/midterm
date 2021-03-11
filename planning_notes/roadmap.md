@@ -14,14 +14,14 @@
 ### WEDNESDAY (STRETCH GOALS)
 
 * [x] Order status bar
-* [ ] Reviews (maybe abandon this stretch)
+* [x] Reviews (maybe abandon this stretch)
 * [x] 'quick order' for repeat order
-* [ ] hosting on Heroku
-* [ ] Code clean-up, organization
-* [ ] Finalize styling, branding
+* [x] hosting on Heroku
+* [x] Code clean-up, organization
+* [x] Finalize styling, branding
 
 ### THURSDAY
 
-* [ ] Any remaining stretch we'd like to do
+* [x] Any remaining stretch we'd like to do
 * [ ] Practice presentation (Roles, dry run)
-* [ ] README
+* [x] README

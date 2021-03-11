@@ -1,16 +1,14 @@
-const concatFoodItems = items => {
-
+const concatFoodItems = (items) => {
   const flatten = new Set(items);
   const food_items = [...flatten];
-  let foodString = '';
+  let foodString = "";
 
-  if(food_items.length === 1){
+  if (food_items.length === 1) {
     foodString = food_items[0];
     return foodString;
   }
 
   for (let i = 0; i < food_items.length; i++) {
-
     if (i === food_items.length - 1) {
       foodString += ` and ${food_items[i]}`;
     } else {
@@ -18,7 +16,6 @@ const concatFoodItems = items => {
     }
   }
   return foodString;
-}
-
+};
 
 module.exports = concatFoodItems;
