@@ -1,4 +1,6 @@
-Snack the Planet is a full stack food ordering web application for a trendy new ficticious restaurant. Customers can visit the site, order items, and their order will be sent to the restaurant via SMS. The restaurant returns a wait time for the customer via SMS which is also displayed on the UI. When the wait time elapses, the customer is notified via the UI. 
+Snack the Planet is a full stack food ordering web application for a trendy new ficticious restaurant. Customers can visit the site, order items, and their order will be sent to the restaurant via SMS. The restaurant returns a wait time for the customer via SMS which is also displayed on the UI. When the wait time elapses, the customer is notified via the UI. Created by [Kyle Lemmon](https://github.com/lemmonk), [Liam Butler](https://github.com/brjl), and [Preeti Rani](https://github.com/Preetirani123).
+
+
 
 !["screenshot menu"](https://github.com/brjl/midterm/blob/master/public/image/browser-menu.png)
 !["screenshot cart"](https://github.com/brjl/midterm/blob/master/public/image/browser-cart.png)
