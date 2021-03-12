@@ -23,5 +23,5 @@
 ### THURSDAY
 
 * [x] Any remaining stretch we'd like to do
-* [ ] Practice presentation (Roles, dry run)
+* [x] Practice presentation (Roles, dry run)
 * [x] README
